@@ -1,0 +1,769 @@
+11:37:57 SQL> select empno,ename,sal,deptno
+11:38:38   2  from emp
+11:38:42   3  where ename= smith;
+where ename= smith
+             *
+ERROR at line 3:
+ORA-00904: "SMITH": invalid identifier 
+
+
+11:38:54 SQL> where ename= 'smith'
+SP2-0734: unknown command beginning "where enam..." - rest of line ignored.
+11:38:59 SQL> select empno,ename,sal,deptno
+11:39:07   2  from emp
+11:39:11   3  where ename like=smith;
+where ename like=smith
+                *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+11:39:41 SQL> where ename like='smith';
+SP2-0734: unknown command beginning "where enam..." - rest of line ignored.
+11:39:46 SQL> where ename like smith;
+SP2-0734: unknown command beginning "where enam..." - rest of line ignored.
+11:39:50 SQL> where ename like 'smith';
+SP2-0734: unknown command beginning "where enam..." - rest of line ignored.
+11:39:57 SQL> where ename=like 'smith';
+SP2-0734: unknown command beginning "where enam..." - rest of line ignored.
+SP2-0044: For a list of known commands enter HELP
+and to leave enter EXIT.
+11:40:02 SQL> where ename= 'smith';
+SP2-0734: unknown command beginning "where enam..." - rest of line ignored.
+11:40:24 SQL> where ename= smith;
+SP2-0734: unknown command beginning "where enam..." - rest of line ignored.
+11:40:29 SQL> select empno,ename,sal,deptno
+11:40:49   2  from emp
+11:40:51   3  where ename like='smith';
+where ename like='smith'
+                *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+11:41:05 SQL> select empno,ename,sal,deptno
+11:41:10   2  from emp
+11:41:14   3  where ename like 'smith';
+
+no rows selected
+
+11:41:21 SQL> desc emp;
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ EMPNO                                                                                                             NOT NULL NUMBER(4)
+ ENAME                                                                                                                      VARCHAR2(10)
+ JOB                                                                                                                        VARCHAR2(9)
+ MGR                                                                                                                        NUMBER(4)
+ HIREDATE                                                                                                                   DATE
+ SAL                                                                                                                        NUMBER(7,2)
+ COMM                                                                                                                       NUMBER(7,2)
+ DEPTNO                                                                                                                     NUMBER(2)
+
+11:41:42 SQL> set lines 100
+11:41:50 SQL> desc emp;
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ EMPNO                                                 NOT NULL NUMBER(4)
+ ENAME                                                          VARCHAR2(10)
+ JOB                                                            VARCHAR2(9)
+ MGR                                                            NUMBER(4)
+ HIREDATE                                                       DATE
+ SAL                                                            NUMBER(7,2)
+ COMM                                                           NUMBER(7,2)
+ DEPTNO                                                         NUMBER(2)
+
+11:41:51 SQL> set lines 600
+11:42:20 SQL> desc emp;
+ Name                                                                                                                                                                                                                                                                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ EMPNO                                                                                                                                                                                                                                                                                                                                                             NOT NULL NUMBER(4)
+ ENAME                                                                                                                                                                                                                                                                                                                                                                      VARCHAR2(10)
+ JOB                                                                                                                                                                                                                                                                                                                                                                        VARCHAR2(9)
+ MGR                                                                                                                                                                                                                                                                                                                                                                        NUMBER(4)
+ HIREDATE                                                                                                                                                                                                                                                                                                                                                                   DATE
+ SAL                                                                                                                                                                                                                                                                                                                                                                        NUMBER(7,2)
+ COMM                                                                                                                                                                                                                                                                                                                                                                       NUMBER(7,2)
+ DEPTNO                                                                                                                                                                                                                                                                                                                                                                     NUMBER(2)
+
+11:42:21 SQL> set lines 100
+11:42:28 SQL> desc emp;
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ EMPNO                                                 NOT NULL NUMBER(4)
+ ENAME                                                          VARCHAR2(10)
+ JOB                                                            VARCHAR2(9)
+ MGR                                                            NUMBER(4)
+ HIREDATE                                                       DATE
+ SAL                                                            NUMBER(7,2)
+ COMM                                                           NUMBER(7,2)
+ DEPTNO                                                         NUMBER(2)
+
+11:42:30 SQL> select empno,ename,sal,deptno
+11:42:46   2  from emp
+11:42:49   3  where like ename= 'smith';
+where like ename= 'smith'
+      *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+11:42:58 SQL> select empno,ename,sal,deptno
+11:43:02   2  from emp
+11:43:06   3  where ename like='smith';
+where ename like='smith'
+                *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+11:43:10 SQL> select empno,ename,sal,deptno
+11:43:15   2  from emp
+11:43:16   3  where ename like='smith';
+where ename like='smith'
+                *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+11:43:23 SQL> select empno,ename,sal,deptno
+11:43:31   2  from emp
+11:43:32   3  where ename like 'smith';
+
+no rows selected
+
+11:43:36 SQL> select *from empname;
+select *from empname
+             *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+11:44:21 SQL> select *from emp
+11:44:33   2  ;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM        
+---------- -------------------- ------------------ ---------- -------- ---------- ----------        
+    DEPTNO                                                                                          
+----------                                                                                          
+      7369 SMITH                CLERK                    7902 80/12/17        800                   
+        20                                                                                          
+                                                                                                    
+      7499 ALLEN                SALESMAN                 7698 81/02/20       1600        300        
+        30                                                                                          
+                                                                                                    
+      7521 WARD                 SALESMAN                 7698 81/02/22       1250        500        
+        30                                                                                          
+                                                                                                    
+
+     EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM        
+---------- -------------------- ------------------ ---------- -------- ---------- ----------        
+    DEPTNO                                                                                          
+----------                                                                                          
+      7566 JONES                MANAGER                  7839 81/04/02       2975                   
+        20                                                                                          
+                                                                                                    
+      7654 MARTIN               SALESMAN                 7698 81/09/28       1250       1400        
+        30                                                                                          
+                                                                                                    
+      7698 BLAKE                MANAGER                  7839 81/05/01       2850                   
+        30                                                                                          
+                                                                                                    
+
+     EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM        
+---------- -------------------- ------------------ ---------- -------- ---------- ----------        
+    DEPTNO                                                                                          
+----------                                                                                          
+      7782 CLARK                MANAGER                  7839 81/06/09       2450                   
+        10                                                                                          
+                                                                                                    
+      7839 KING                 PRESIDENT                     81/11/17       5000                   
+        10                                                                                          
+                                                                                                    
+      7844 TURNER               SALESMAN                 7698 81/09/08       1500          0        
+        30                                                                                          
+                                                                                                    
+
+     EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM        
+---------- -------------------- ------------------ ---------- -------- ---------- ----------        
+    DEPTNO                                                                                          
+----------                                                                                          
+      7900 JAMES                CLERK                    7698 81/12/03        950                   
+        30                                                                                          
+                                                                                                    
+      7902 FORD                 ANALYST                  7566 81/12/03       3000                   
+        20                                                                                          
+                                                                                                    
+      7934 MILLER               CLERK                    7782 82/01/23       1300                   
+        10                                                                                          
+                                                                                                    
+
+12 rows selected.
+
+11:44:36 SQL> select empno,ename,sal,deptno
+11:44:50   2  from emp
+11:44:51   3  where ename like "SMITH";
+where ename like "SMITH"
+                 *
+ERROR at line 3:
+ORA-00904: "SMITH": invalid identifier 
+
+
+11:45:05 SQL> select empno,ename,sal,deptno
+11:45:08   2  from emp
+11:45:10   3  where ename like 'SMITH';
+
+     EMPNO ENAME                       SAL     DEPTNO                                               
+---------- -------------------- ---------- ----------                                               
+      7369 SMITH                       800         20                                               
+
+11:45:16 SQL> --------->문자열 인식 >> '' 필요
+11:49:22 SQL> --> 아스키 코드로 입력되기때문
+11:49:36 SQL> select empno,ename,sal,deptno
+11:51:16   2  from emp
+11:51:18   3  where ename='SMITH';
+
+     EMPNO ENAME                       SAL     DEPTNO                                               
+---------- -------------------- ---------- ----------                                               
+      7369 SMITH                       800         20                                               
+
+11:51:31 SQL> --------실습 : 직책 매니저인 사원 사번, 이름 급여 부서번호 조회
+11:54:16 SQL> select empno,ename,sal,deptno
+11:54:34   2  from emp
+11:54:38   3  where job='MANAGER';
+
+     EMPNO ENAME                       SAL     DEPTNO                                               
+---------- -------------------- ---------- ----------                                               
+      7566 JONES                      2975         20                                               
+      7698 BLAKE                      2850         30                                               
+      7782 CLARK                      2450         10                                               
+
+11:54:55 SQL> set lines 600
+11:56:04 SQL> select * from emp;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM     DEPTNO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+---------- -------------------- ------------------ ---------- -------- ---------- ---------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7369 SMITH                CLERK                    7902 80/12/17        800                    20                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7499 ALLEN                SALESMAN                 7698 81/02/20       1600        300         30                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7521 WARD                 SALESMAN                 7698 81/02/22       1250        500         30                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7566 JONES                MANAGER                  7839 81/04/02       2975                    20                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7654 MARTIN               SALESMAN                 7698 81/09/28       1250       1400         30                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7698 BLAKE                MANAGER                  7839 81/05/01       2850                    30                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7782 CLARK                MANAGER                  7839 81/06/09       2450                    10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7839 KING                 PRESIDENT                     81/11/17       5000                    10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7844 TURNER               SALESMAN                 7698 81/09/08       1500          0         30                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7900 JAMES                CLERK                    7698 81/12/03        950                    30                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7902 FORD                 ANALYST                  7566 81/12/03       3000                    20                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+
+     EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM     DEPTNO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+---------- -------------------- ------------------ ---------- -------- ---------- ---------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      7934 MILLER               CLERK                    7782 82/01/23       1300                    10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+
+12 rows selected.
+
+11:56:09 SQL> desc emp;
+ Name                                                                                                                                                                                                                                                                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ EMPNO                                                                                                                                                                                                                                                                                                                                                             NOT NULL NUMBER(4)
+ ENAME                                                                                                                                                                                                                                                                                                                                                                      VARCHAR2(10)
+ JOB                                                                                                                                                                                                                                                                                                                                                                        VARCHAR2(9)
+ MGR                                                                                                                                                                                                                                                                                                                                                                        NUMBER(4)
+ HIREDATE                                                                                                                                                                                                                                                                                                                                                                   DATE
+ SAL                                                                                                                                                                                                                                                                                                                                                                        NUMBER(7,2)
+ COMM                                                                                                                                                                                                                                                                                                                                                                       NUMBER(7,2)
+ DEPTNO                                                                                                                                                                                                                                                                                                                                                                     NUMBER(2)
+
+11:57:15 SQL> set lines 100
+11:57:22 SQL> desc emp;
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ EMPNO                                                 NOT NULL NUMBER(4)
+ ENAME                                                          VARCHAR2(10)
+ JOB                                                            VARCHAR2(9)
+ MGR                                                            NUMBER(4)
+ HIREDATE                                                       DATE
+ SAL                                                            NUMBER(7,2)
+ COMM                                                           NUMBER(7,2)
+ DEPTNO                                                         NUMBER(2)
+
+11:57:23 SQL> ---날짜
+12:00:44 SQL> select empno,ename,sal,deptno,hiredate
+12:01:05   2  from emp
+12:01:08   3  where hiredate='81/02/20';
+
+     EMPNO ENAME                       SAL     DEPTNO HIREDATE                                      
+---------- -------------------- ---------- ---------- --------                                      
+      7499 ALLEN                      1600         30 81/02/20                                      
+
+12:01:25 SQL> where hiredate>'81/02/20';
+SP2-0734: unknown command beginning "where hire..." - rest of line ignored.
+12:02:17 SQL> where hiredate > '81/02/20';
+SP2-0734: unknown command beginning "where hire..." - rest of line ignored.
+12:02:22 SQL> select empno,ename,sal,deptno,hiredate
+12:02:27   2  from emp
+12:02:30   3  where hiredate>'81/02/20';
+
+     EMPNO ENAME                       SAL     DEPTNO HIREDATE                                      
+---------- -------------------- ---------- ---------- --------                                      
+      7521 WARD                       1250         30 81/02/22                                      
+      7566 JONES                      2975         20 81/04/02                                      
+      7654 MARTIN                     1250         30 81/09/28                                      
+      7698 BLAKE                      2850         30 81/05/01                                      
+      7782 CLARK                      2450         10 81/06/09                                      
+      7839 KING                       5000         10 81/11/17                                      
+      7844 TURNER                     1500         30 81/09/08                                      
+      7900 JAMES                       950         30 81/12/03                                      
+      7902 FORD                       3000         20 81/12/03                                      
+      7934 MILLER                     1300         10 82/01/23                                      
+
+10 rows selected.
+
+12:02:31 SQL> -- 날짜가 기준일보다 크다로 표기되면 이후, 작으면 이전으로 표현
+12:02:56 SQL> -- 오라클 dbms 날짜 범위 : bc4312~ ad9999까지 내부적으로 증가하는 숫자타입으로 저장
+12:06:15 SQL> -- 논리연산자 : 여러 조건파라미터 사용을위해 사용
+12:16:46 SQL> -- 논리연산자 : 이론상 가능
+12:16:54 SQL> --10번 부서 사원, 급여 3000이상인 사원이름급여부서번호 조회
+12:18:19 SQL> select ename,sal,dept
+12:19:43   2  from emp;
+select ename,sal,dept
+                 *
+ERROR at line 1:
+ORA-00904: "DEPT": invalid identifier 
+
+
+12:19:45 SQL> select ename,sal,dept
+12:19:50   2  from emp;
+select ename,sal,dept
+                 *
+ERROR at line 1:
+ORA-00904: "DEPT": invalid identifier 
+
+
+12:19:50 SQL> select ename,sal,deptno
+12:19:54   2  from emp
+12:19:58   3  where deptno=10 AND sal>=3000;
+
+ENAME                       SAL     DEPTNO                                                          
+-------------------- ---------- ----------                                                          
+KING                       5000         10                                                          
+
+12:20:18 SQL> select ename,empno,job,sal
+12:40:44   2  from emp;
+
+ENAME                     EMPNO JOB                       SAL                                       
+-------------------- ---------- ------------------ ----------                                       
+SMITH                      7369 CLERK                     800                                       
+ALLEN                      7499 SALESMAN                 1600                                       
+WARD                       7521 SALESMAN                 1250                                       
+JONES                      7566 MANAGER                  2975                                       
+MARTIN                     7654 SALESMAN                 1250                                       
+BLAKE                      7698 MANAGER                  2850                                       
+CLARK                      7782 MANAGER                  2450                                       
+KING                       7839 PRESIDENT                5000                                       
+TURNER                     7844 SALESMAN                 1500                                       
+JAMES                      7900 CLERK                     950                                       
+FORD                       7902 ANALYST                  3000                                       
+
+ENAME                     EMPNO JOB                       SAL                                       
+-------------------- ---------- ------------------ ----------                                       
+MILLER                     7934 CLERK                    1300                                       
+
+12 rows selected.
+
+12:40:46 SQL> select ename,empno,job,sal
+12:40:48   2  from emp
+12:40:52   3  where job='MANAGER';
+
+ENAME                     EMPNO JOB                       SAL                                       
+-------------------- ---------- ------------------ ----------                                       
+JONES                      7566 MANAGER                  2975                                       
+BLAKE                      7698 MANAGER                  2850                                       
+CLARK                      7782 MANAGER                  2450                                       
+
+12:41:02 SQL> select ename,empno,job,sal
+12:41:24   2  from emp
+12:41:27   3  where job='MANAGER' AND SAL>=1500;
+
+ENAME                     EMPNO JOB                       SAL                                       
+-------------------- ---------- ------------------ ----------                                       
+JONES                      7566 MANAGER                  2975                                       
+BLAKE                      7698 MANAGER                  2850                                       
+CLARK                      7782 MANAGER                  2450                                       
+
+12:41:38 SQL> select ename,empno,hiredate
+12:42:21   2  from emp;
+
+ENAME                     EMPNO HIREDATE                                                            
+-------------------- ---------- --------                                                            
+SMITH                      7369 80/12/17                                                            
+ALLEN                      7499 81/02/20                                                            
+WARD                       7521 81/02/22                                                            
+JONES                      7566 81/04/02                                                            
+MARTIN                     7654 81/09/28                                                            
+BLAKE                      7698 81/05/01                                                            
+CLARK                      7782 81/06/09                                                            
+KING                       7839 81/11/17                                                            
+TURNER                     7844 81/09/08                                                            
+JAMES                      7900 81/12/03                                                            
+FORD                       7902 81/12/03                                                            
+
+ENAME                     EMPNO HIREDATE                                                            
+-------------------- ---------- --------                                                            
+MILLER                     7934 82/01/23                                                            
+
+12 rows selected.
+
+12:42:23 SQL> select ename,empno,hiredate
+12:42:25   2  from emp
+12:42:29   3  where hiredate>='81/01/01';
+
+ENAME                     EMPNO HIREDATE                                                            
+-------------------- ---------- --------                                                            
+ALLEN                      7499 81/02/20                                                            
+WARD                       7521 81/02/22                                                            
+JONES                      7566 81/04/02                                                            
+MARTIN                     7654 81/09/28                                                            
+BLAKE                      7698 81/05/01                                                            
+CLARK                      7782 81/06/09                                                            
+KING                       7839 81/11/17                                                            
+TURNER                     7844 81/09/08                                                            
+JAMES                      7900 81/12/03                                                            
+FORD                       7902 81/12/03                                                            
+MILLER                     7934 82/01/23                                                            
+
+11 rows selected.
+
+12:42:58 SQL> where hiredate BEETWEEN '80/12/31' AND '82/01/01;
+SP2-0734: unknown command beginning "where hire..." - rest of line ignored.
+12:43:44 SQL> where hiredate IN( BEETWEEN '80/12/31' AND '82/01/01) ;
+SP2-0734: unknown command beginning "where hire..." - rest of line ignored.
+12:43:58 SQL> select ename,empno,hiredate
+12:44:02   2  from emp
+12:44:03   3  where hiredate BEETWEEN '80/12/31' AND '82/01/01;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+12:44:05 SQL> select ename,empno,hiredate
+12:44:18   2  where hiredate BEETWEEN '80/12/31' AND '82/01/01;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+12:44:19 SQL> select ename,empno,hiredate
+12:44:23   2  from emp
+12:44:26   3  where hiredate IN(BEETWEEN '80/12/31' AND '82/01/01);
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+12:44:41 SQL> where hiredate BEETWEEN '80/12/31' AND '82/01/01';
+SP2-0734: unknown command beginning "where hire..." - rest of line ignored.
+12:45:11 SQL> select ename,empno,hiredate
+12:45:13   2  from emp
+12:45:13   3  where hiredate BEETWEEN '80/12/31' AND '82/01/01';
+where hiredate BEETWEEN '80/12/31' AND '82/01/01'
+               *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+12:45:16 SQL> select ename,empno,hiredate
+12:45:33   2  from emp
+12:45:36   3  where hiredate BETWEEN '80/12/31' AND '82/01/01';
+
+ENAME                     EMPNO HIREDATE                                                            
+-------------------- ---------- --------                                                            
+ALLEN                      7499 81/02/20                                                            
+WARD                       7521 81/02/22                                                            
+JONES                      7566 81/04/02                                                            
+MARTIN                     7654 81/09/28                                                            
+BLAKE                      7698 81/05/01                                                            
+CLARK                      7782 81/06/09                                                            
+KING                       7839 81/11/17                                                            
+TURNER                     7844 81/09/08                                                            
+JAMES                      7900 81/12/03                                                            
+FORD                       7902 81/12/03                                                            
+
+10 rows selected.
+
+12:45:41 SQL> select ename,empno,hiredate
+12:45:58   2  from emp
+12:45:59   3  where hiredate BEETWEEN '80/12/31' AND '82/01/23';
+where hiredate BEETWEEN '80/12/31' AND '82/01/23'
+               *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+12:46:07 SQL> select ename,empno,hiredate
+12:46:10   2  from emp
+12:46:11   3  where hiredate BETWEEN '80/12/31' AND '82/01/23';
+
+ENAME                     EMPNO HIREDATE                                                            
+-------------------- ---------- --------                                                            
+ALLEN                      7499 81/02/20                                                            
+WARD                       7521 81/02/22                                                            
+JONES                      7566 81/04/02                                                            
+MARTIN                     7654 81/09/28                                                            
+BLAKE                      7698 81/05/01                                                            
+CLARK                      7782 81/06/09                                                            
+KING                       7839 81/11/17                                                            
+TURNER                     7844 81/09/08                                                            
+JAMES                      7900 81/12/03                                                            
+FORD                       7902 81/12/03                                                            
+MILLER                     7934 82/01/23                                                            
+
+11 rows selected.
+
+12:46:14 SQL> where hiredate BETWEEN '81/01/01' AND '81/12/31';
+SP2-0734: unknown command beginning "where hire..." - rest of line ignored.
+12:46:32 SQL> select ename,empno,hiredate
+12:46:35   2  from emp
+12:46:35   3  where hiredate BETWEEN '81/01/01' AND '81/12/31';
+
+ENAME                     EMPNO HIREDATE                                                            
+-------------------- ---------- --------                                                            
+ALLEN                      7499 81/02/20                                                            
+WARD                       7521 81/02/22                                                            
+JONES                      7566 81/04/02                                                            
+MARTIN                     7654 81/09/28                                                            
+BLAKE                      7698 81/05/01                                                            
+CLARK                      7782 81/06/09                                                            
+KING                       7839 81/11/17                                                            
+TURNER                     7844 81/09/08                                                            
+JAMES                      7900 81/12/03                                                            
+FORD                       7902 81/12/03                                                            
+
+10 rows selected.
+
+12:46:38 SQL> 
+12:50:17 SQL> 
+12:50:17 SQL> select ename,sal,deptno
+12:50:51   2  from emp
+12:50:54   3  where in dept=10,20;
+where in dept=10,20
+      *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+12:51:27 SQL> select ename,sal,deptno
+12:51:31   2  from emp
+12:51:32   3  where  dept=10 OR 20;
+where  dept=10 OR 20
+                   *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+12:51:40 SQL> where  dept=10 OR dept=20;
+SP2-0734: unknown command beginning "where  dep..." - rest of line ignored.
+12:51:52 SQL> select ename,sal,deptno
+12:51:54   2  from emp
+12:51:55   3  where  dept=10 OR dept=20;
+where  dept=10 OR dept=20
+                  *
+ERROR at line 3:
+ORA-00904: "DEPT": invalid identifier 
+
+
+12:51:58 SQL> where  deptno=10 OR deptno=20;
+SP2-0734: unknown command beginning "where  dep..." - rest of line ignored.
+12:52:10 SQL> select ename,sal,deptno
+12:52:13   2  from emp
+12:52:14   3  where  deptno=10 OR deptno=20;
+
+ENAME                       SAL     DEPTNO                                                          
+-------------------- ---------- ----------                                                          
+SMITH                       800         20                                                          
+JONES                      2975         20                                                          
+CLARK                      2450         10                                                          
+KING                       5000         10                                                          
+FORD                       3000         20                                                          
+MILLER                     1300         10                                                          
+
+6 rows selected.
+
+12:52:16 SQL> select ename,sal,deptno
+12:52:32   2  from emp
+12:52:33   3  where  dept=10 OR dept=20 AND sal>=3000;
+where  dept=10 OR dept=20 AND sal>=3000
+                  *
+ERROR at line 3:
+ORA-00904: "DEPT": invalid identifier 
+
+
+12:52:50 SQL> select ename,sal,deptno
+12:52:53   2  from emp
+12:52:54   3  where  deptno=10 OR deptno=20 AND sal>=3000;
+
+ENAME                       SAL     DEPTNO                                                          
+-------------------- ---------- ----------                                                          
+CLARK                      2450         10                                                          
+KING                       5000         10                                                          
+FORD                       3000         20                                                          
+MILLER                     1300         10                                                          
+
+12:53:06 SQL> select ename,sal,deptno
+12:53:16   2  from emp
+12:53:17   3  where  deptno=10,20 AND sal>=3000;
+where  deptno=10,20 AND sal>=3000
+                *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+12:53:30 SQL> where deptno in(10,20) AND sal>=3000;
+SP2-0734: unknown command beginning "where dept..." - rest of line ignored.
+12:53:45 SQL> select ename,sal,deptno
+12:53:47   2  from emp
+12:53:48   3  where deptno in(10,20) AND sal>=3000;
+
+ENAME                       SAL     DEPTNO                                                          
+-------------------- ---------- ----------                                                          
+KING                       5000         10                                                          
+FORD                       3000         20                                                          
+
+12:53:49 SQL> select ename,sal,deptno
+12:56:39   2  from emp
+12:56:39   3  where deptno in(10,20) AND sal>=3000;
+
+ENAME                       SAL     DEPTNO                                                          
+-------------------- ---------- ----------                                                          
+KING                       5000         10                                                          
+FORD                       3000         20                                                          
+
+12:57:00 SQL> 
+12:57:01 SQL> 
+12:57:01 SQL> 
+12:57:02 SQL> select ename,sal,deptno
+12:57:22   2  from emp
+12:57:23   3  where in(select deptno from emp; where deptno=10);
+where in(select deptno from emp; where deptno=10)
+      *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+12:57:59 SQL> --논리연산자 우선순위 1)not  2) AND 3) OR
+13:05:21 SQL> 
+13:05:21 SQL> select ename,sal,deptno
+13:06:06   2  from emp
+13:06:06   3  where (deptno = 10 OR 20) AND sal>=3000;
+where (deptno = 10 OR 20) AND sal>=3000
+              *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+13:06:52 SQL> select ename,sal,deptno
+13:06:54   2  from emp
+13:06:54   3  where (deptno = 10 OR 20) AND sal>=3000;
+where (deptno = 10 OR 20) AND sal>=3000
+              *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+13:06:59 SQL> where (deptno = 10 OR deptno = 20) AND sal>=3000;
+SP2-0734: unknown command beginning "where (dep..." - rest of line ignored.
+13:07:27 SQL> select ename,sal,deptno
+13:07:30   2  from emp
+13:07:31   3  where (deptno = 10 OR deptno = 20) AND sal>=3000;
+
+ENAME                       SAL     DEPTNO                                                          
+-------------------- ---------- ----------                                                          
+KING                       5000         10                                                          
+FORD                       3000         20                                                          
+
+13:07:33 SQL> 
+13:10:24 SQL> 
+13:10:24 SQL> 
+13:10:25 SQL> -- oracle db에서 사용하는 연산자 .
+13:10:37 SQL> -- oracle dbms에서 사용하는 연산자 .
+13:10:46 SQL> select empno,ename,sal
+13:11:35   2  from emp
+13:11:37   3  where sal>=1500 AND sal <= 3000;
+
+     EMPNO ENAME                       SAL                                                          
+---------- -------------------- ----------                                                          
+      7499 ALLEN                      1600                                                          
+      7566 JONES                      2975                                                          
+      7698 BLAKE                      2850                                                          
+      7782 CLARK                      2450                                                          
+      7844 TURNER                     1500                                                          
+      7902 FORD                       3000                                                          
+
+6 rows selected.
+
+13:11:55 SQL> select ename,empno,sal
+13:13:31   2  from emp
+13:13:35   3  where sal between 1500 AND 3000;
+
+ENAME                     EMPNO        SAL                                                          
+-------------------- ---------- ----------                                                          
+ALLEN                      7499       1600                                                          
+JONES                      7566       2975                                                          
+BLAKE                      7698       2850                                                          
+CLARK                      7782       2450                                                          
+TURNER                     7844       1500                                                          
+FORD                       7902       3000                                                          
+
+6 rows selected.
+
+13:13:47 SQL> select name,sal,job
+13:16:18   2  from emp
+13:16:21   3  where (sal>=3000) AND (sal<=5000);
+select name,sal,job
+       *
+ERROR at line 1:
+ORA-00904: "NAME": invalid identifier 
+
+
+13:16:50 SQL> select ename,sal,job
+13:16:57   2  from emp
+13:16:59   3  where (sal >=3000) AND (sal<=5000);
+
+ENAME                       SAL JOB                                                                 
+-------------------- ---------- ------------------                                                  
+KING                       5000 PRESIDENT                                                           
+FORD                       3000 ANALYST                                                             
+
+13:17:13 SQL> select ename,sal,job
+13:17:39   2  from emp
+13:17:46   3  where sal=(between 3000 AND 5000);
+where sal=(between 3000 AND 5000)
+           *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+13:18:26 SQL> select ename,sal,job
+13:18:28   2  where sal=(between 3000 AND 5000);
+where sal=(between 3000 AND 5000)
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+13:18:30 SQL> from emp
+SP2-0042: unknown command "from emp" - rest of line ignored.
+13:18:32 SQL> select ename,sal,job
+13:18:33   2  from emp
+13:18:33   3  where sal in(between 3000 AND 5000);
+where sal in(between 3000 AND 5000)
+             *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+13:18:39 SQL> select ename,sal,job
+13:18:46   2  from emp
+13:18:47   3  where sal between 3000 AND 5000;
+
+ENAME                       SAL JOB                                                                 
+-------------------- ---------- ------------------                                                  
+KING                       5000 PRESIDENT                                                           
+FORD                       3000 ANALYST                                                             
+
+13:18:55 SQL> spool off

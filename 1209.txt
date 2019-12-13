@@ -1,0 +1,724 @@
+12/05
+문자 조작
+UPPER대문자로 
+LOWER소문자로 
+INITCAP앞글자만대문자로
+
+SUBSTR(~~,1,3) 1부터 3번만 출력
+SUBSTR(~~,4) 번째거만 출력
+LENGTH 문자길이 출력
+INSTR(~~, 'A') 'A'가 몇번째 자리에 있는지 출력
+
+기타
+L/RPAD(~~~,10,'*') ~~~컬럼의 값을 10자리로 하고 남은 칸을 L/R부터 '*'로 채운다
+
+SELECT * FROM DUAL; -- DUAL테이블은 1*1의 DUMMY컬럼만 있음
+
+SELECT TRIM('o' FROM 'oracleDBMS') NAME FROM EMP; --'O'빼고 'racleDBMS' 12번실행
+SELECT TRIM('oracleDBMS') NAME FROM DUAL; -- 공백만 빼고 1번만실행
+-- TRIM 함수 : 특정한 문자를 제거, 제거할 문자를 입력하지 않으면 기본적으로 공백이 제거 됨
+REPLACE : 문자열의 특정 문자를 다른 문자로 변환 , 대소문자 구별한다
+
+--숫자함수
+
+-- ROUND(A,B) A를 소수점B자리까지 반올림하기
+-- TRUNC(A,B) A를 소수점B자리에서 버림
+-- MOD(A,B) A/B연산을 한 후 나머지를 가져오기
+
+----------------------------------------------------
+
+--날짜함수 SYSDATE
+
+SELECT SYSDATE FROM DUAL; -- 현재 시각 출력
+
+SELECT HIREDATE,
+        MONTHS_BETWEEN(SYSDATE, HIREDATE), -- A, B 사이의 개월 수 (숫자로 출력됨)
+        ADD_MONTHS(HIREDATE, 6), -- 입사하고 6개월 후 출력
+        NEXT_DAY(HIREDATE,'금'), -- 입사일과 가장 가까운 금요일날짜 출력
+        LAST_DAY(HIREDATE) --입사한 달의 마지막 날 출력
+FROM EMP;
+
+-- 실습 : 이번 달의 마지막 일자를 출력해라
+SELECT LAST_DAY(SYSDATE) FROM DUAL;
+
+-- 실습 : 근무 개월 수가 460개월 이상인 사원의 이름 입사일자 근무 개월수를 출력해라
+--      근무 개월 수는 월 단위로 표기하기
+
+SELECT ENAME 사원이름, HIREDATE 입사일자, TRUNC(MONTHS_BETWEEN(SYSDATE, HIREDATE), 0) AS "근무 개월수"
+FROM EMP
+WHERE TRUNC(MONTHS_BETWEEN(SYSDATE, HIREDATE),0) >= 460;
+
+-- 여기서 볼 수 있듯이 단일 행 함수는 함수 중첩이 가능하다
+
+--문제 : 사원명 입사일 6개월 후 금요일 출력
+
+SELECT ENAME "사원명", HIREDATE "입사일", NEXT_DAY(ADD_MONTHS(HIREDATE, 6), '금') AS "입사6개월후금요일"
+FROM EMP;
+
+-- 날짜 연산
+SELECT SYSDATE + 1 FROM DUAL; -- 날짜 + 숫자 -> 날짜 출력
+
+SELECT SYSDATE + HIREDATE
+FROM EMP
+WHERE ENAME = 'SMITH'; -- 오류발생 : 날짜 + 날짜는 불가능하다.
+
+SELECT SYSDATE - HIREDATE
+FROM EMP
+WHERE ENAME = 'SMITH'; -- 날짜-날짜는 가능하다. 숫자로 출력됨
+
+SELECT SYSDATE - '80/01/01' FROM DUAL; -- 오류발생 ) 문자로는 빼기 불가능
+
+-------------------------------------------------
+-- 변환함수
+-- 암시적 : 오라클 서버가 자동으로 바꿔줌
+-- 명시적 함수
+
+-- number <-> character // character <-> date 타입의 상호 변환
+-- to_number / to_date / to_char
+
+SELECT SYSDATE - '80/01/01' -- 날짜형 - 문자형 은 연산이 불가능
+FROM EMP;                   -- 에러발생
+
+SELECT SYSDATE - TO_DATE('80/01/01') -- 날짜형 - 날짜형 으로 변경되어 연산가능
+FROM DUAL;
+
+SELECT SYSDATE, TO_DATE ('20191205'), '20191205'
+FROM DUAL;
+
+SELECT SYSDATE, TO_CHAR(SYSDATE, 'CC YYYY/MM/DD : HH24 : MI : SS')
+FROM DUAL;
+
+-- 급여의 형태 변환
+SELECT ENAME, TO_CHAR(SAL, '$999,999.99')
+FROM EMP;
+
+-- 콤마 예제
+SELECT TO_CHAR(12345678, '999,999,999') FROM DUAL;
+
+SELECT TO_CHAR(12345678, 'L999,999,999') FROM DUAL; -- 내위치에 따라 원화로 자동표시됨
+
+SELECT TO_CHAR(123, '09999') FROM DUAL; -- 0고정
+
+SELECT TO_CHAR(123, 'XXXX') FROM DUAL; -- 16진수로 변환
+
+SELECT TO_NUMBER('012345678') FROM DUAL; -- 문자를 숫자로 변환
+
+-------------------------------------------------
+
+--일반함수 
+-- NULL처리 함수 // NVL NVL2 NULLIF COALESCE
+-- 조건부 표현식 // CASE DECODE
+
+SELECT ENAME, SAL*12 + COMM "FULLSAL"
+FROM EMP;
+
+-- NVL(A,0) : A컬럼의 NULL값을 0으로 간주
+SELECT ENAME, SAL*12 + NVL(COMM, 0) "FULLSAL" 
+FROM EMP;
+
+-- NVL2(COL, A, B) : 컬럼의 값이 NULL이 아니면A // NULL이면 B로 간주
+-- 예제 : 사원들이 매니저가 있으면 1 없으면 0을 출력
+SELECT EMPNO, NVL2(MGR,1,0) "MGR" FROM EMP;
+
+-- COALESCE (COL, A, B) : COL이 NULL이면 A / A가 NULL이면 B
+
+SELECT COALESCE(COMM, 1), COMM
+FROM EMP;
+
+SELECT COALESCE(COMM, NULL, 1), COMM
+FROM EMP;
+
+-- NULLIF : 두 표현식을 비교하여 동일한 경우에는 NULL을 반환하고
+--                          동일하지 않은 경우는 첫 표현식을 반환
+
+SELECT NULLIF('A', 'a'), NULLIF('A', 'A')
+FROM DUAL;
+
+-- DECODE(VALUE, IF1, THEN1, IF2, THEN2, ....)  형태
+-- 조건에 따라 데이터를 다른 값이나 컬럼값으로 추출할 수 있도록 하는 함수
+-- DECODE 함수 안에 DECODE 함수를 중첩으로 사용할 수 있음.
+
+----CASE 함수(CASE구문)
+-- DECODE 함수와 비슷한 역할
+-- DECODE에서 제공하지 않는 비교연산의 단점을 해결 할 수 있는 함수
+-- =>  조건 연산자를 모두 사용할 수 있다
+
+SELECT DEPTNO,
+    CASE DEPTNO
+        WHEN 10 THEN 'ACCOUNTING'
+        WHEN 20 THEN 'RESEARCH'
+        WHEN 30 THEN 'SALES'
+        ELSE 'OPERATIONS'
+    END "NAME"
+FROM DEPT;
+        
+-- CASE와 조건 연산자
+-- 급여별로 인상율을 다르게 적용(계산)
+ 
+SELECT ENAME,SAL,
+    CASE  
+        WHEN SAL < 1000 THEN SAL+(SAL*0.08)
+        WHEN SAL BETWEEN 1000 AND 2000 THEN SAL+(SAL*0.05)
+        WHEN SAL BETWEEN 2001 AND 3000 THEN SAL+(SAL*0.03)
+        ELSE SAL+(SAL*0.01)
+    END "UPSALARY"
+FROM EMP;
+
+-- 직책이 매니저인 사원은 급여율 10%인상
+-- 일반사원은 5%인상
+-- 나머지는 2%인상
+
+-- CASE구문 사용 예
+SELECT ENAME, JOB, SAL,
+    CASE
+        WHEN JOB='MANAGER' THEN SAL+(SAL*0.1)
+        WHEN JOB='CLERK' THEN SAL+(SAL*0.05)
+        ELSE SAL+(SAL*0.02)
+    END "UPSAL"
+FROM EMP;
+
+--DECODE사용한 예
+SELECT ENAME, JOB, SAL,
+    DECODE(JOB, 'MANAGER', SAL*1.1,
+                'CLERK', SAL*1.05,
+                SAL*1.02
+            ) "UPSAL"
+FROM EMP;
+
+
+
+
+
+
+
+
+12/06
+---- 그룹함수
+-- 단일 행 함수와 달리, 그룹함수는 행 집합에 대해 실행되어 ((그룹 당 하나의 결과)) 를 산출한다.
+--이러한 행 집합은 전체 테이블이나 그룹으로 분할된 테이블로 구성될 수 있다.
+
+--유형 : AVG COUNT MAX MIN STDDEV SUM VARIANCE DISTINCT키워드
+
+
+-- 다중 행 함수(그룹함수)
+
+SELECT ROUND(AVG(SAL),3)"AVG(SAL)", MAX(SAL), MIN(SAL), SUM(SAL)
+FROM EMP;
+
+SELECT ROUND(AVG(SAL),3)"AVG(SAL)", MAX(SAL), MIN(SAL), SUM(SAL)
+FROM EMP
+WHERE JOB LIKE 'CLERK';
+
+--EX) 가장 최근에 입사한사원, 가장 오래근무한사원 찾으려면
+SELECT MAX(HIREDATE), MIN(HIREDATE) FROM EMP;
+
+--EX) 사전순으로 정렬된 모든 사원 리스트에서 맨 마지막사람과 맨 첫사람 조회
+SELECT MAX(ENAME), MIN(ENAME) FROM EMP;
+
+-- COUNT : 테이블의 행 수를 반환한다.
+SELECT COUNT(*) FROM EMP;
+
+-- 전체 사원의 수를 출력해라
+SELECT COUNT(ENAME) FROM EMP;
+
+-- 10번부서 사원의 수를 출력
+SELECT COUNT(ENAME) FROM EMP WHERE DEPTNO = 10;
+-- NULL인 행은 세지않는다.
+SELECT COUNT(comm) FROM EMP;
+
+-- 전체 사원 수당의 평균
+SELECT ROUND(AVG(NVL(COMM,0)),2) FROM EMP; -- NULL포함
+SELECT AVG(COMM) FROM EMP;
+
+--COUNT 할 때, 처음부터 NULL이 아닌 값을 가진 행의 수를 반환하도록 설계되어있음
+---> NULL을 무시
+---> 어떤경우는 모수가 달라지는 경우가 생김
+---> 그러므로 NULL처리 함수를 통해 모수를 맞춰주는 것을 신경서야 함
+
+SELECT ROUND(STDDEV(SAL),3) SALARY FROM EMP; -- 표준편차
+
+--실습 : 전체 직원의 평균급여 급여총합계 최고급여 최저급여 조회
+-- 평균급여는 소수점 둘째자리까지 표시, 급여 총 합계는 천단위로 표시
+
+SELECT ROUND(AVG(SAL),2) "AVG(SAL)", TO_CHAR(SUM(SAL), '999,999') "SUM(SAL)", MAX(SAL), MIN(SAL)
+FROM EMP;
+
+
+--데이터 그룹 생성
+--지금까지는 모든 그룹함수가 테이블을 하나의 큰 정보 그룹으로 취급
+--그러나 정보 테이블을 더 작은 그룹으로 나눠야하는 경우가 있다
+--이러한 작업은 GROUP BY 절을 사용하여 수행가능하다.
+
+--GROUP BY
+-- 각 부서번호별로 평균 급여를 출력
+
+SELECT DEPTNO, ROUND(AVG(SAL),2) "평균 급여"
+FROM EMP
+GROUP BY DEPTNO
+ORDER BY DEPTNO ASC;
+
+--실습 각 업무별로 평균 급여를 출력하세요
+SELECT JOB, ROUND(AVG(SAL),3)
+FROM EMP
+GROUP BY JOB;
+
+-- GROUP BY 절에 두개의 컬럼 사용가능
+SELECT DEPTNO, JOB, AVG(SAL)
+FROM EMP
+GROUP BY DEPTNO, JOB; -- 모두 일치하는 ROW끼리 그룹 생성
+
+-- 업무별로 그룹화하여 업무 인원수 평균급여액 최고급여액 최소급여액, 합계 조회
+SELECT JOB, COUNT(EMPNO)업무인원수, ROUND(AVG(SAL),2)평균급여액, MAX(SAL), MIN(SAL), SUM(SAL)
+FROM EMP
+GROUP BY JOB;
+
+--그룹결과 제한 : HAVING 절
+-- WHERE절을 사용하여 선택할 행을 제한하는 것과 동일한 방식으로 HAVING절을 사용하여 그룹을 제한한다.
+
+SELECT DEPTNO, ROUND(AVG(SAL),2)"AVG(SAL)"
+FROM EMP
+GROUP BY DEPTNO
+HAVING AVG(SAL) >=2500;
+
+-- 직책 별 평균 급여
+SELECT JOB, ROUND(AVG(SAL),2)"AVG(SAL)"
+FROM EMP
+GROUP BY JOB
+HAVING ROUND(AVG(SAL),2) >= 1500;
+
+-- 실습1 각 부서별로 몇 명의 인원이 있는지 출력
+-- 실습2 인원이 2명 이상인 부서번호와 인원을 출력
+
+SELECT DEPTNO, COUNT(EMPNO)
+FROM EMP
+GROUP BY DEPTNO
+ORDER BY DEPTNO ASC;
+
+SELECT DEPTNO, COUNT(EMPNO)
+FROM EMP
+GROUP BY DEPTNO
+HAVING COUNT(EMPNO) >= 2
+ORDER BY DEPTNO ASC; -- 항상 마지막.
+
+-- 그룹함수의 중첩 가능하다.
+
+SELECT MAX(AVG(SAL))
+FROM EMP
+GROUP BY DEPTNO;
+
+-------------------------------------------------------------------------------------------------
+
+12/06
+--JOIN 함수
+
+--사원의 부서이름을 조회하려고 한다.
+SELECT ENAME, DNAME
+FROM EMP,DEPT; -- 결과가 너무 많이 나옴
+
+-- WHERE절을 통해 필요한 결과만 조회가능
+SELECT ENAME, DNAME
+FROM EMP,DEPT
+WHERE EMP.DEPTNO=DEPT.DEPTNO; 
+
+--    조인이란
+--    조인-조건을 기준으로 두 테이블의 각 행들을 합친 후 원하는 데이터의 레코드를 가져오는 방법
+
+-- 보통 둘 이상의 행들의 공통된 값 기본키 및 외래키 값을 사용하여 조인한다.
+
+--[92 EQUI-JOIN]
+SELECT E.EMPNO, E.ENAME, D.DNAME
+FROM EMP E, DEPT D
+WHERE E.DEPTNO=D.DEPTNO;
+
+--[ANSI EQUI-INNER JOIN]
+SELECT E.EMPNO, E.ENAME, D.DNAME
+FROM EMP E INNER JOIN DEPT D
+ON E.DEPTNO= D.DEPTNO;
+
+-- [ANSI NONE-EQUI INNER JOIN]
+--테이블의 어떤 컬럼도 JOIN할 테이블의 컬럼에 일치하지 않을 때
+--JOIN CONDITION '='이 아닌 다른 연산자(BETWEEN-AND, IS NULL, IN NOT NULL, IN, NOT IN)가 사용되는 경우
+-- 전체 사원의 이름과 급여등급을 조회해라
+SELECT E.ENAME, S.GRADE
+FROM EMP E, SALGRADE S
+WHERE E.SAL BETWEEN S.LOSAL AND S.HISAL;
+
+SELECT E.ENAME, S.GRADE
+FROM EMP E INNER JOIN SALGRADE S
+ON E.SAL BETWEEN S.LOSAL AND S.HISAL;
+
+-- 실습 : 전체 사원명, 부서명, 급여등급을 조회하세요
+SELECT E.ENAME, D.DNAME, S.GRADE
+FROM EMP E, DEPT D, SALGRADE S
+WHERE (E.SAL BETWEEN S.LOSAL AND S.HISAL) AND E.DEPTNO = D.DEPTNO
+ORDER BY S.GRADE;
+
+-- 셀프조인
+--[92 SELF JOIN]
+--    EQUI JOIN과 형식이 같으나 하나의 테이블에서 조인이 일어나는 형태이다.
+--    같은 테이블에 대해 두 개의 ALIAS를 사용하여 FROM절에서 두 개의 테이블을 사용하는 것처럼 JOIN
+--    서로 다른 ROW끼리 비교
+
+--각 사원들의 매니저이름을 조회해라
+SELECT E.ENAME "사원", D.ENAME "매니저이름"
+FROM EMP E, EMP D
+WHERE E.MGR = D.EMPNO
+ORDER BY E.ENAME;
+
+SELECT E.ENAME "사원", D.ENAME "매니저이름"
+FROM EMP E INNER JOIN EMP D
+ON E.MGR = D.EMPNO
+ORDER BY E.ENAME;
+
+-- [92 OUTER JOIN]
+--EQUI JOIN은 조인을 생성하려는 두 테이블의 한쪽 컬럼에 값이 없다면 데이터를 반환하지 못함
+SELECT DISTINCT(E.DEPTNO), D.DEPTNO, D.DNAME
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO;
+--동일 조건에서 조인조건을 만족하는 값이 없는 행들을 조회하기 위해 사용하는 조인
+--OUTER JOIN 연산자는 '+'
+-- @@@@@@@@@조인시 조인값이 없는 조인측에 (+) 위치시킴@@@@@@@@@
+--OUTER JOIN 연산자는 표현식의 한 편에만 올 수 있음
+
+-- 사원 테이블에서 사원이름 모두와 매니저명을 조회하세요
+SELECT E1.ENAME "사원명", E2.ENAME "매니저명"
+FROM EMP E1, EMP E2
+WHERE E1.MGR = E2.EMPNO(+);
+
+-- [ANSI OUTER JOIN]
+-- LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN
+
+-- LEFT OUTER JOIN : INNER JOIN 결과도 표시하고 JOIN키워드의 왼편에 있는 테이블에서 조인 조건을 만족하지 못해서
+-- 표시되지 않은 레코드를 더 표시
+SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+FROM EMP E
+    LEFT OUTER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+
+-- RIGHT OUTER JOIN : INNER JOIN 결과도 표시하고 JOIN키워드의 오른편에 있는 테이블에서 조인 조건을 만족하지 못해서
+-- 표시되지 않은 레코드를 더 표시
+SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+FROM EMP E
+    RIGHT OUTER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+
+-- FULL OUTER JOIN : 양쪽 테이블 모두에 OUTER JOIN이 필요한 경우에 사용한다.
+SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+FROM EMP E
+    FULL OUTER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+
+--[ANSI NATURAL JOIN]
+-- EQUI JOIN과 동일하다
+-- 두 테이블의 동일한 이름을 가지는 컬럼이 있으면 모두 조인이 된다.
+-- 동일한 컬럼을 내부적으로 찾게되므로 테이블 ALIAS를 주면 오류가 발생
+-- 동일한 컬럼이 두 개 이상인 경우 JOIN ~ USING 문장으로도 조인되는 컬럼을 제어할 수 있다.
+-- 동일한 컬럼을 내부적으로 모두 조인하므로 ON절 생략이 가능하다
+
+SELECT E.ENAME, D.DNAME
+FROM EMP E NATURAL JOIN DEPT D; -- 뒤에 ON절 사용 시 에러발생
+
+--동일한 컬럼이 두 개 이상이면 JOIN-USING 절 사용
+SELECT E.ENAME, D.DNAME, DEPTNO
+FROM EMP E JOIN DEPT D
+USING (DEPTNO);
+
+-- [ANSI CROSS JOIN]
+-- Cartesian Product 값을 얻을 때 사용한다.
+-- INNER JOIN 또는 OUTER JOIN으로 합쳐질 수 없는 행들을 합치려 할 때 사용할 수 있다.
+SELECT ENAME
+FROM EMP CROSS JOIN DEPT;
+
+-- 결과값이 많으므로 테이블의 행의 수를 극소수로 제한하는 조건절과 함께 사용하는 것을 권장한다.
+SELECT E.EMPNO, E.ENAME, D.DNAME
+FROM EMP E CROSS JOIN DEPT D
+WHERE D.DEPTNO = 10;
+
+
+12/9
+
+--OUTER JOIN 연습
+
+-- WHERE 절 사용 시
+SELECT E.ENAME, D.DNAME
+FROM EMP E LEFT OUTER JOIN DEPT D
+ON E.DEPTNO=D.DEPTNO
+WHERE E.DEPTNO = 30;
+
+-- AND 절 사용 시
+SELECT E.ENAME, D.DNAME
+FROM EMP E LEFT OUTER JOIN DEPT D
+ON E.DEPTNO=D.DEPTNO
+AND E.DEPTNO = 30; -- WHERE절과 출력값이 다르다. -> 주의하여 사용
+
+-----------------------------------------------------------------------
+-- FUNCTION 함수
+-- SINGLE ROW FUNCTION
+-- 단일 행 함수
+-- 종류 : 문자형, 숫자형, 날짜형, 변환, 일반
+
+-- MULTIPLE ROW FUNCTION 다중 행 함수
+-- 여러 값을 만나, 값 하나를 돌려주는 함수
+SELECT COUNT(*), COUNT(SAL), MIN(SAL), MAX(SAL), SUM(SAL), AVG(SAL)
+FROM EMP;
+
+--참고 : COUNT함수는 설계시부터 NULL을 제외하도록 설계됨. 숫자만 불러올 수 있다.
+--      MIN, MAX는 예외적으로 이름(ASCII)과 달라도 숫자화해서 불러올 수 있다.
+
+--사원 일인 당 평균수당을 구하세요 (컬럼에 NULL이 들어있다면 바로 AVG()함수를 사용해선 안됨.)
+SELECT AVG(SAL)/COUNT(EMPNO)
+FROM EMP;
+
+-- GROUP FUNCTION 그룹 함수
+-- GROUP BY 절
+-- 작은 그룹(컬럼)당 묶은다음 MULTIPLE함수를 많이 사용
+-- 그룹에서 데이터를 제한(원하는 정보를 추출) : HAVING 절
+
+-- 부서번호별 급여의 평균
+SELECT DEPTNO, AVG(SAL)
+FROM EMP
+GROUP BY DEPTNO;
+
+-- 부서번호별 급여의 평균에 조건 추가(평균급여 2500이상)
+SELECT DEPTNO, TRUNC(AVG(SAL),2)
+FROM EMP
+GROUP BY DEPTNO
+HAVING AVG(SAL)>=2500;
+
+--SELECT 문 구성
+-- 4   SELECT 컬럼명, 컬럼명, *(모든정보), F(X), ||(연결연산자), '문자', ALIAS(별칭), DISTINCT()(중복제거), SAL*12(연산식)
+-- 1    FROM 테이블명, 테이블명 , ... , N (','로 연결 : 92 / 문자로연결 : ANSI)
+-- 2   WHERE CONDITION(조건) ==> 연산자, 비교연산자, 논리연산자, BETWEEN 小 AND 大(경계값포함), IN, LIKE, IS NULL => NOT을 통해 부정 가능
+-- 3   GROUP BY 컬럼, 컬럼, ... , N
+-- 5   HAVING CONDITION ==> WHERE절 연산자와 같은 연산자가 모두 쓰일 수 있다.
+-- 6   ORDER BY 컬럼명(컬럼명, ALIAS, POSITION) <ASC(오름차순)/DESC(내림차순)>, 컬럼명
+--                첫번째 컬럼으로 1차정렬, 두번째 컬럼으로 2차정렬
+--    
+--참고 : WHERE CONDITION : 조건을 TRUE로 만족하는 ROW 제한
+--        HAVING CONDITION : 조건을 TRUE로 만족하는 GROUP 제한
+
+--기본 정리 문제 
+  급여가 1000 이상인 사원을 대상으로 조사
+ 부서번호별, 직책별 평균급여를 구하려고 함
+ 1. 평균급여 2000이상
+ 2. 평균급여 많은 순으로 출력
+
+SELECT DEPTNO, JOB, AVG(SAL)
+FROM EMP
+WHERE SAL>=1000
+GROUP BY DEPTNO, JOB
+HAVING AVG(SAL)>=2000
+ORDER BY AVG(SAL) DESC;
+
+
+-- SUB QUERY 서브쿼리
+-- SELECT문의 고급기능
+--다른 SQL문의 WHERE절에서 SUBQUERY를 작성하여 알수없는 조건부 값(프로그래머가 테이블에서 얻어오는 값을 예상할 수 없을 때 )
+--을 기반으로 값을 구할 수 있음
+
+-- 문제 : JONES 사원보다 더 많은 급여를 받는 사원의 사번 이름 급여?
+
+SELECT EMPNO, ENAME, SAL
+FROM EMP
+WHERE SAL > (   SELECT SAL 
+                FROM EMP 
+                WHERE ENAME = 'JONES'
+            );
+
+--SUNQUERY 주의사항
+-- 1. SUBQUERY는 반드시 괄호 안에다가 써야한다
+-- 2. single row subquery 앞에는 single row operator(비교연산자)가 사용되어야 한다.
+-- 3. multiple row subquery 앞에는 multiple row operator(DB에서 쓰는 연산자)가 와야한다.
+ 
+
+
+-- JONES 사원보다 더 많은 급여를 받는 사원의 이름과 급여를 조회
+SELECT ENAME, SAL
+FROM EMP
+WHERE SAL > (
+            SELECT SAL
+            FROM EMP
+            WHERE ENAME = 'JONES'
+            );
+
+-- 10번 부서 사람들의 급여와 같은 급여를 받는 사원의 이름과 급여를 조회
+SELECT ENAME, SAL
+FROM EMP
+WHERE SAL IN (                          -- '='사용하면 오류가 난다(뒤에 MULTIPLE ROW 이기때문에) IN 사용해야함
+            SELECT SAL
+            FROM EMP
+            WHERE DEPTNO=10
+            );
+
+-- IN : 여러값 중 하나와 같다
+-- ANY : 여러값 중 하나 
+--        비교연산자 (=,!=, >, <, >=, <=, <>)가 앞에 있어야 한다
+--        값 하나를 리스트의 값 또는 QUERY에서 반환된 값과 각각 비교한다.
+--        QUERY에서 반환된 행이 없으면 FALSE로 평가된다
+-- ALL : 모든 값 
+--        비교연산자 (=,!=, >, <, >=, <=, <>)가 앞에 있어야 한다
+--        값 하나를 리스트의 값 또는 QUERY에서 반환된 값과 각각 비교한다.
+--        QUERY에서 반환된 행이 없으면 TRUE로 평가된다
+
+-- 1 IN
+--문제 : 부서번호가 10, 20, 30인 직원들의 부서번호 별 평균 급여 중 하나와 같은 급여를 받는 직원의 사번 이름 급여 조회
+SELECT EMPNO, ENAME, SAL
+FROM EMP
+WHERE SAL IN (
+            SELECT AVG(SAL)
+            FROM EMP
+            WHERE DEPTNO IN(10,20,30) --여기선 이 행은 없어도 무관함
+            GROUP BY DEPTNO
+            );
+
+-- 문제 : 다른 직원의 상관으로 근무하는 직원의 사원번호 이름 급여를 조회하세요
+--1번풀이 (JOIN을 사용한것)
+SELECT EMPNO, ENAME, SAL
+FROM EMP
+WHERE ENAME IN (
+                SELECT E1.ENAME
+                FROM EMP E1, EMP E2
+                WHERE E1.EMPNO = E2.MGR                
+                );
+-- 2번풀이 
+SELECT EMPNO, ENAME, SAL
+FROM EMP
+WHERE EMPNO IN (
+                SELECT MGR
+                FROM EMP
+                );            
+-- 2번풀이로 하는것을 연습할 것!
+
+-- 문제 : 반대로 다른 직원의 상관이 아닌 (부하직원이 없는) 직원들의 사번, 이름, 매니저번호를 조회해라
+SELECT EMPNO, ENAME, MGR
+FROM EMP
+WHERE EMPNO NOT IN (
+                SELECT MGR
+                FROM EMP
+                );
+--실행시 NULL에의해서 0개의ROW가 출력됨
+                
+SELECT EMPNO, ENAME, SAL
+FROM EMP
+WHERE EMPNO NOT IN (
+                SELECT MGR
+                FROM EMP
+                WHERE MGR IS NOT NULL
+                );
+
+-- 메인쿼리에서 WHERE 절에서 서브쿼리 앞에NOT IN 사용시 주의할 것(NULL).
+
+-- 2 ANY
+-- SALESMAN 직책의 급여보다 많이 받는 사원의 사원명과 급여정보를 조회
+SELECT ENAME, SAL
+FROM EMP
+WHERE SAL > ANY (
+            SELECT SAL
+            FROM EMP
+            WHERE JOB IN 'SALESMAN'
+            );
+
+--문제 부서번호가 10,20,30인 직원들의 부서번호별 평균 급여 중 하나보다 작거나 같은 급여를 받는
+--      직원의 사번 이름 급여를 조회
+SELECT EMPNO, ENAME, SAL
+FROM EMP
+WHERE SAL <= ANY(
+                SELECT TRUNC(AVG(SAL))
+                FROM EMP
+                WHERE DEPTNO IN (10,20,30)
+                GROUP BY DEPTNO
+                );
+                
+-- 단일행 서브쿼리로표현
+SELECT EMPNO, ENAME, SAL
+FROM EMP
+WHERE SAL < (
+            SELECT MAX(AVG(SAL))
+            FROM EMP
+            GROUP BY DEPTNO
+            );
+
+-- 3 ALL
+-- 모든 SALESMAN 직책의 급여보다 많이 받는 사원의 사원명과 급여정보를 조회하기
+SELECT ENAME, SAL
+FROM EMP
+WHERE SAL > ALL(
+                SELECT SAL
+                FROM EMP
+                WHERE JOB IN 'SALESMAN'
+                );
+-- 부서번호 10, 20, 30번 직원들의 부서별 평균 SAL 모두보다 적은 급여를 받는
+-- 문제 직원의 사번 이름 급여정보를 조회
+SELECT EMPNO, ENAME, SAL
+FROM EMP
+WHERE SAL < ALL(
+                SELECT TRUNC(AVG(SAL))
+                FROM EMP
+                WHERE DEPTNO IN (10, 20, 30)
+                GROUP BY DEPTNO
+                );
+
+-- 4 단일 행 서브쿼리로 표현
+SELECT EMPNO, ENAME, SAL
+FROM EMP
+WHERE SAL <(
+            SELECT MIN(AVG(SAL))
+            FROM EMP
+            WHERE DEPTNO IN (10, 20, 30)
+            GROUP BY DEPTNO
+            );
+
+--문제 부서별로 가장 많은 급여를 받는 사원의 정보를 출력하시오.
+SELECT *
+FROM EMP
+WHERE SAL IN (
+                SELECT MAX(SAL)
+                FROM EMP
+                GROUP BY DEPTNO
+                );
+
+-- 실습1 EMP테이블에서 부서별 평균급여가 가장 큰 부서의 부서번호와 그 평균급여를 구하시오
+SELECT DEPTNO, TRUNC(AVG(SAL)) "AVG(SAL)"
+FROM EMP
+GROUP BY DEPTNO
+HAVING AVG(SAL)IN(
+                SELECT MAX(AVG(SAL))
+                FROM EMP
+                GROUP BY DEPTNO
+            );
+-- 실습2 EMP테이블에서 직책별 평균급여가 가장 작은 직책과 그 평균급여를 구하시오
+SELECT JOB, AVG(SAL)
+FROM EMP
+GROUP BY JOB
+HAVING AVG(SAL) IN (
+                    SELECT MIN(AVG(SAL))
+                    FROM EMP
+                    GROUP BY JOB
+                    );
+
+-- 5 서브쿼리에서 메인쿼리로 반환되는 것이 없으면 메인쿼리의 결과는 항상 '선택된 행이 없음'이 표시된다.
+-- 이때는 NULL을 없애서 다시 시도한다(NVL, NVL2 등 이용)
+
+-- 6 EXISTS 연산자
+-- 테이블에 특정 행이 있는지 여부에 따라 쿼리 결과가 달라지는 쿼리에 이용
+-- 부서원이 없는 부서 정보를 표기
+
+SELECT *
+FROM DEPT
+WHERE NOT EXISTS(
+                SELECT * 
+                FROM EMP
+                WHERE EMP.DEPTNO = DEPT.DEPTNO
+                );
+
+-- 7 SUBQUERY 내에서는 ORDER BY 절이 의미가 없어서 지원하지 않는다.
+SELECT EMPNO, ENAME, SAL
+FROM EMP
+WHERE SAL > (
+            SELECT SAL
+            FROM EMP
+            WHERE ENAME = 'JONES'
+            )
+ORDER BY SAL DESC;
+
+

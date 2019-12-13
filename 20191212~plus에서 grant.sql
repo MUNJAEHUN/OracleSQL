@@ -1,0 +1,420 @@
+--C:\Users\goott7-15>sqlplus sys/oracle
+--
+--SQL*Plus: Release 11.2.0.2.0 Production on 목 12월 12 10:56:38 2019
+--
+--Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+--
+--ERROR:
+--ORA-28009: connection as SYS should be as SYSDBA or SYSOPER
+--
+--
+--Enter user-name: sysdba
+--Enter password:
+--ERROR:
+--ORA-01017: invalid username/password; logon denied
+--
+--
+--Enter user-name:
+--ERROR:
+--ORA-01017: invalid username/password; logon denied
+--
+--
+--SP2-0157: unable to CONNECT to ORACLE after 3 attempts, exiting SQL*Plus
+--
+--C:\Users\goott7-15>
+--C:\Users\goott7-15>sqlplus sys/oracle as sysdba
+--
+--SQL*Plus: Release 11.2.0.2.0 Production on 목 12월 12 10:59:25 2019
+--
+--Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+--
+--
+--Connected to:
+--Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+--
+--SQL> show user
+--USER is "SYS"
+--SQL> create user user1
+--  2  identified by tiger;
+--
+--User created.
+--
+--SQL> conn user1/tiger
+--ERROR:
+--ORA-01045: user USER1 lacks CREATE SESSION privilege; logon denied
+--
+--
+--Warning: You are no longer connected to ORACLE.
+--SQL> show user
+--USER is ""
+--SQL> --권한
+--SQL> -- 1.system : 시스템에 영향을 미치는 권한 - grant 권한 to 사용자명
+--SQL> --                                         - revoke 권한 from 사용자명
+--SQL> --                                         : sys가 권한을 가지고 있음
+--SQL> -- 2.object : 해당 오브젝트에만 영향을 미치는 권한 - grant 권한 on object명 to 사용자명
+--SQL> --                                                 - revoke 권한 on object명 from 사용자명
+--SQL> --                                                 : 생성자가 권한을 가진다
+--SQL>
+--SQL> show user
+--USER is ""
+--SQL> conn system/oracle
+--Connected.
+--SQL>
+--SQL> show user
+--USER is "SYSTEM"
+--SQL> -- grant 권한 to 사용자명
+--SQL> grant connect, resource to user1;
+--
+--Grant succeeded.
+--
+--SQL> conn user1/tiger
+--Connected.
+--SQL> ----커넥트 권한을 user1에게 주어 접속이 가능해졌다.
+--SQL> show user
+--USER is "USER1"
+--SQL>
+--
+--
+--SQL> select * from emp;
+--select * from emp
+--              *
+--ERROR at line 1:
+--ORA-00942: table or view does not exist
+--
+--
+--SQL> select * from tab;
+--
+--no rows selected
+--
+--SQL> -- 위에서 보이는 emp와 tab의차이는 ?
+--SQL> -- tab은 user1의 테이블을 보여주므로 현재 생성한게 없어 위의 에러문구 출력
+--SQL> -- emp는 존재하지 않는다고 뜨는데 이는 보안상의 이유로 권한이 없는사람에게 존재가 없다고 표시
+--
+--
+--SQL> select * from scott emp;
+--select * from scott emp
+--              *
+--ERROR at line 1:
+--ORA-00942: table or view does not exist
+--
+--
+--SQL> select * from scott.emp; -- scott : 오브젝트를 저장할수 있는 도메인
+--  2  select * from scott.emp;
+--select * from scott.emp; -- scott : 오브젝트를 저장할수 있는 도메인
+--                       *
+--ERROR at line 1:
+--ORA-00911: invalid character
+--
+--
+--SQL> --emp 테이블의 권한을 가진 자가 권한을 줘야 한다
+--SQL> conn scott/tiger
+--Connected.
+--SQL> grant select on emp to user1;
+--
+--Grant succeeded.
+--
+--SQL> conn user1/tiger
+--Connected.
+--SQL> select * from scott.emp;
+--
+--     EMPNO ENAME                JOB                       MGR HIREDATE
+------------ -------------------- ------------------ ---------- --------
+--       SAL       COMM     DEPTNO
+------------ ---------- ----------
+--      7369 SMITH                CLERK                    7902 80/12/17
+--       800                    20
+--
+--      7499 ALLEN                SALESMAN                 7698 81/02/20
+--      1600        300         30
+--
+--      7521 WARD                 SALESMAN                 7698 81/02/22
+--      1250        500         30
+--
+--
+--     EMPNO ENAME                JOB                       MGR HIREDATE
+------------ -------------------- ------------------ ---------- --------
+--       SAL       COMM     DEPTNO
+------------ ---------- ----------
+--      7566 JONES                MANAGER                  7839 81/04/02
+--      2975                    20
+--
+--      7654 MARTIN               SALESMAN                 7698 81/09/28
+--      1250       1400         30
+--
+--      7698 BLAKE                MANAGER                  7839 81/05/01
+--      2850                    30
+--
+--
+--     EMPNO ENAME                JOB                       MGR HIREDATE
+------------ -------------------- ------------------ ---------- --------
+--       SAL       COMM     DEPTNO
+------------ ---------- ----------
+--      7782 CLARK                MANAGER                  7839 81/06/09
+--      2450                    10
+--
+--      7839 KING                 PRESIDENT                     81/11/17
+--      5000                    10
+--
+--      7844 TURNER               SALESMAN                 7698 81/09/08
+--      1500          0         30
+--
+--
+--     EMPNO ENAME                JOB                       MGR HIREDATE
+------------ -------------------- ------------------ ---------- --------
+--       SAL       COMM     DEPTNO
+------------ ---------- ----------
+--      7900 JAMES                CLERK                    7698 81/12/03
+--       950                    30
+--
+--      7902 FORD                 ANALYST                  7566 81/12/03
+--      3000                    20
+--
+--      7934 MILLER               CLERK                    7782 82/01/23
+--      1300                    10
+--
+--
+--12 rows selected.
+--
+--SQL> -- update
+--SQL> update scott.emp
+--  2  set sal= 100
+--  3  where ename='jones';
+--update scott.emp
+--             *
+--ERROR at line 1:
+--ORA-01031: insufficient privileges
+--
+--
+--SQL> -- 오류의 이유 - 업데이트 권한 x
+--SQL> conn scott/tiger
+--Connected.
+--SQL> grant update on emp to user1; -- 업데이트 권한 부여
+--  2  grant update on emp to user1;
+--grant update on emp to user1; -- 업데이트 권한 부여
+--                            *
+--ERROR at line 1:
+--ORA-00911: invalid character
+--
+--
+--SQL> grant update on emp to user1;
+--
+--Grant succeeded.
+--
+--SQL> conn user1/tiger
+--Connected.
+--SQL> update scott.emp
+--  2  set sal=100
+--  3  where ename='jones';
+--
+--0 rows updated.
+--
+--SQL> where ename='JONES';
+--SP2-0734: unknown command beginning "where enam..." - rest of line ignored.
+--SQL> update scott.emp
+--  2  set sal=100
+--  3  where ename='JONES';
+--
+--1 row updated.
+--
+--SQL> -- 권한 회수
+--SQL> conn scott/tiger
+--Connected.
+--SQL> revoke select,update on emp from user1;
+--
+--Revoke succeeded.
+--
+--SQL> conn user1/tiger
+--Connected.
+--SQL> select * from scott.emp;
+--select * from scott.emp
+--                    *
+--ERROR at line 1:
+--ORA-00942: table or view does not exist
+--
+--
+--SQL> -- 권한 회수로 emp 조회 불가
+--
+--SQL> --계정 관리 연습
+--SQL> -- user끼리 테이블 허용
+--SQL> conn system/oracle
+--Connected.
+--SQL> show user
+--USER is "SYSTEM"
+--SQL> create table t1
+--  2  (
+--  3  id varchar2(20),
+--  4  pw varchar2(20),
+--  5  );
+--)
+--*
+--ERROR at line 5:
+--ORA-00904: : invalid identifier
+--
+--
+--SQL> create table t1 (
+--  2  pw varchar2(20),
+--  3  id varchar2(20)
+--  4  );
+--
+--Table created.
+--
+--SQL> insertt into t1
+--SP2-0734: unknown command beginning "insertt in..." - rest of line ignored.
+--SQL> insert into t1
+--  2  values ('aaa','bbb');
+--
+--1 row created.
+--
+--SQL> -- 위 : 계정테이블 생성 및 계정 생성
+--SQL> -- 아래 : 이 정보를 scott이 볼수 있도록 권한 수여
+--SQL>
+--SQL> grant select on t1 to scott
+--  2  ;
+--
+--Grant succeeded.
+--
+--SQL> conn scott/tiger
+--Connected.
+--SQL> select * from system.t1;
+--
+--PW
+------------------------------------------
+--ID
+------------------------------------------
+--aaa
+--bbb
+--
+--
+--SQL> -- 계정 삭제 : system에서
+--SQL> conn system/oracle
+--Connected.
+--SQL> drop user user1;
+--
+--User dropped.
+--
+--SQL>
+--SQL> --패스워드 변경
+--SQL> show user
+--USER is "SYSTEM"
+--SQL> create user user1
+--  2  identified by tiger;
+--
+--User created.
+--
+--SQL> grant connect, resource to user1;
+--
+--Grant succeeded.
+--
+--SQL> show user
+--USER is "SYSTEM"
+--SQL> alter user user1
+--  2  identified by lion;
+--
+--User altered.
+--
+--SQL> conn user1/lion
+--Connected.
+--SQL>
+--SQL>
+--SQL> --pw 변경 요구
+--SQL> conn system/oracle
+--Connected.
+--SQL> create user user2
+--  2  identified by tiger
+--  3  password expire
+--  4  account unblock;
+--account unblock
+--        *
+--ERROR at line 4:
+--ORA-00921: unexpected end of SQL command
+--
+--
+--SQL> create user user2
+--  2  identified by tiger
+--  3  password expire
+--  4  account unlock;
+--
+--User created.
+--
+--SQL> conn user2/tiger
+--ERROR:
+--ORA-28001: the password has expired
+--
+--
+--Changing password for user2
+--New password:
+--Retype new password:
+--ERROR:
+--ORA-01045: user USER2 lacks CREATE SESSION privilege; logon denied
+--
+--
+--Password changed
+--Warning: You are no longer connected to ORACLE.
+--SQL> show user
+--USER is ""
+--SQL> conn user2/lion
+--ERROR:
+--ORA-01045: user USER2 lacks CREATE SESSION privilege; logon denied
+--
+--
+--SQL> conn user2/tiger
+--ERROR:
+--ORA-01017: invalid username/password; logon denied
+--
+--SQL> show user
+--USER is ""
+--SQL> conn system/oracle
+--Connected.
+--SQL> create user user2
+--  2  identified by tiger
+--  3  password expire
+--  4  account unlock;
+--create user user2
+--            *
+--ERROR at line 1:
+--ORA-01920: user name 'USER2' conflicts with another user or role name
+--
+--
+--SQL> alter user user2
+--  2  account lock;
+--
+--User altered.
+--
+--SQL> conn user2/lion
+--ERROR:
+--ORA-28000: the account is locked
+--
+--Warning: You are no longer connected to ORACLE.
+--
+--SQL> conn system/oracle
+--Connected.
+--SQL> alter user user2
+--  2  unlock;
+--unlock
+--*
+--ERROR at line 2:
+--ORA-00922: missing or invalid option
+--
+--
+--SQL> alter user user2
+--  2  account unlock;
+--
+--User altered.
+--
+--SQL> conn user2/lion
+--ERROR:
+--ORA-01045: user USER2 lacks CREATE SESSION privilege; logon denied
+--
+--
+--Warning: You are no longer connected to ORACLE.
+--SQL>
+--SQL>
+--SQL> conn system/oracle
+--Connected.
+--SQL> grant create session to user2
+--  2  ;
+--
+--Grant succeeded.
+--
+--SQL> conn user2/lion
+--Connected.

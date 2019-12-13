@@ -1,0 +1,544 @@
+SQL> spool
+currently spooling to 1210.txt
+SQL> -- Data Dictionary
+SQL> show user;
+USER is "SCOTT"
+SQL> --구성 : 접두사 + 관심 keyword + 복수형
+SQL> -- 1. 내가 생성한 것과 관련된 정보 : USER_
+SQL> desc user_tables;
+ Name              Null?    Type
+ ----------------- -------- ------------
+ TABLE_NAME        NOT NULL VARCHAR2(30)
+ TABLESPACE_NAME            VARCHAR2(30)
+ CLUSTER_NAME               VARCHAR2(30)
+ IOT_NAME                   VARCHAR2(30)
+ STATUS                     VARCHAR2(8)
+ PCT_FREE                   NUMBER
+ PCT_USED                   NUMBER
+ INI_TRANS                  NUMBER
+ MAX_TRANS                  NUMBER
+ INITIAL_EXTENT             NUMBER
+ NEXT_EXTENT                NUMBER
+ MIN_EXTENTS                NUMBER
+ MAX_EXTENTS                NUMBER
+ PCT_INCREASE               NUMBER
+ FREELISTS                  NUMBER
+ FREELIST_GROUPS            NUMBER
+ LOGGING                    VARCHAR2(3)
+ BACKED_UP                  VARCHAR2(1)
+ NUM_ROWS                   NUMBER
+ BLOCKS                     NUMBER
+ EMPTY_BLOCKS               NUMBER
+ AVG_SPACE                  NUMBER
+ CHAIN_CNT                  NUMBER
+ AVG_ROW_LEN                NUMBER
+ AVG_SPACE_FREELIS          NUMBER
+ T_BLOCKS
+ NUM_FREELIST_BLOC          NUMBER
+ KS
+ DEGREE                     VARCHAR2(40)
+ INSTANCES                  VARCHAR2(40)
+ CACHE                      VARCHAR2(20)
+ TABLE_LOCK                 VARCHAR2(8)
+ SAMPLE_SIZE                NUMBER
+ LAST_ANALYZED              DATE
+ PARTITIONED                VARCHAR2(3)
+ IOT_TYPE                   VARCHAR2(12)
+ TEMPORARY                  VARCHAR2(1)
+ SECONDARY                  VARCHAR2(1)
+ NESTED                     VARCHAR2(3)
+ BUFFER_POOL                VARCHAR2(7)
+ FLASH_CACHE                VARCHAR2(7)
+ CELL_FLASH_CACHE           VARCHAR2(7)
+ ROW_MOVEMENT               VARCHAR2(8)
+ GLOBAL_STATS               VARCHAR2(3)
+ USER_STATS                 VARCHAR2(3)
+ DURATION                   VARCHAR2(15)
+ SKIP_CORRUPT               VARCHAR2(8)
+ MONITORING                 VARCHAR2(3)
+ CLUSTER_OWNER              VARCHAR2(30)
+ DEPENDENCIES               VARCHAR2(8)
+ COMPRESSION                VARCHAR2(8)
+ COMPRESS_FOR               VARCHAR2(12)
+ DROPPED                    VARCHAR2(3)
+ READ_ONLY                  VARCHAR2(3)
+ SEGMENT_CREATED            VARCHAR2(3)
+ RESULT_CACHE               VARCHAR2(7)
+
+SQL> SELECT TABLE_NAME
+  2  FROM USER_TABLES;
+
+TABLE_NAME          
+--------------------
+DEPT                
+EMP                 
+BONUS               
+SALGRADE            
+COPY_EMP            
+
+SQL> -- 2. 접근 권한이 있는 것과 관련된 정보 : ALL_
+SQL> DESC ALL_TABLES;
+ Name              Null?    Type
+ ----------------- -------- ------------
+ OWNER             NOT NULL VARCHAR2(30)
+ TABLE_NAME        NOT NULL VARCHAR2(30)
+ TABLESPACE_NAME            VARCHAR2(30)
+ CLUSTER_NAME               VARCHAR2(30)
+ IOT_NAME                   VARCHAR2(30)
+ STATUS                     VARCHAR2(8)
+ PCT_FREE                   NUMBER
+ PCT_USED                   NUMBER
+ INI_TRANS                  NUMBER
+ MAX_TRANS                  NUMBER
+ INITIAL_EXTENT             NUMBER
+ NEXT_EXTENT                NUMBER
+ MIN_EXTENTS                NUMBER
+ MAX_EXTENTS                NUMBER
+ PCT_INCREASE               NUMBER
+ FREELISTS                  NUMBER
+ FREELIST_GROUPS            NUMBER
+ LOGGING                    VARCHAR2(3)
+ BACKED_UP                  VARCHAR2(1)
+ NUM_ROWS                   NUMBER
+ BLOCKS                     NUMBER
+ EMPTY_BLOCKS               NUMBER
+ AVG_SPACE                  NUMBER
+ CHAIN_CNT                  NUMBER
+ AVG_ROW_LEN                NUMBER
+ AVG_SPACE_FREELIS          NUMBER
+ T_BLOCKS
+ NUM_FREELIST_BLOC          NUMBER
+ KS
+ DEGREE                     VARCHAR2(40)
+ INSTANCES                  VARCHAR2(40)
+ CACHE                      VARCHAR2(20)
+ TABLE_LOCK                 VARCHAR2(8)
+ SAMPLE_SIZE                NUMBER
+ LAST_ANALYZED              DATE
+ PARTITIONED                VARCHAR2(3)
+ IOT_TYPE                   VARCHAR2(12)
+ TEMPORARY                  VARCHAR2(1)
+ SECONDARY                  VARCHAR2(1)
+ NESTED                     VARCHAR2(3)
+ BUFFER_POOL                VARCHAR2(7)
+ FLASH_CACHE                VARCHAR2(7)
+ CELL_FLASH_CACHE           VARCHAR2(7)
+ ROW_MOVEMENT               VARCHAR2(8)
+ GLOBAL_STATS               VARCHAR2(3)
+ USER_STATS                 VARCHAR2(3)
+ DURATION                   VARCHAR2(15)
+ SKIP_CORRUPT               VARCHAR2(8)
+ MONITORING                 VARCHAR2(3)
+ CLUSTER_OWNER              VARCHAR2(30)
+ DEPENDENCIES               VARCHAR2(8)
+ COMPRESSION                VARCHAR2(8)
+ COMPRESS_FOR               VARCHAR2(12)
+ DROPPED                    VARCHAR2(3)
+ READ_ONLY                  VARCHAR2(3)
+ SEGMENT_CREATED            VARCHAR2(3)
+ RESULT_CACHE               VARCHAR2(7)
+
+SQL> SELECT TABLE_NAME
+  2  , OWNER
+  3  FROM ALL_TABLES;
+
+TABLE_NAME          
+--------------------
+OWNER               
+--------------------
+DUAL                
+SYS                 
+                    
+SYSTEM_PRIVILEGE_MAP
+SYS                 
+                    
+TABLE_PRIVILEGE_MAP 
+SYS                 
+                    
+STMT_AUDIT_OPTION_MA
+P                   
+SYS                 
+                    
+AUDIT_ACTIONS       
+SYS                 
+                    
+WRR$_REPLAY_CALL_FIL
+TER                 
+SYS                 
+                    
+HS_BULKLOAD_VIEW_OBJ
+SYS                 
+                    
+HS$_PARALLEL_METADAT
+A                   
+SYS                 
+                    
+HS_PARTITION_COL_NAM
+E                   
+SYS                 
+                    
+HS_PARTITION_COL_TYP
+E                   
+SYS                 
+                    
+HELP                
+SYSTEM              
+                    
+DR$OBJECT_ATTRIBUTE 
+CTXSYS              
+                    
+DR$POLICY_TAB       
+CTXSYS              
+                    
+DR$THS              
+CTXSYS              
+                    
+DR$THS_PHRASE       
+CTXSYS              
+                    
+DR$NUMBER_SEQUENCE  
+CTXSYS              
+                    
+SRSNAMESPACE_TABLE  
+MDSYS               
+                    
+OGIS_SPATIAL_REFEREN
+CE_SYSTEMS          
+MDSYS               
+                    
+OGIS_GEOMETRY_COLUMN
+S                   
+MDSYS               
+                    
+SDO_UNITS_OF_MEASURE
+MDSYS               
+                    
+SDO_PRIME_MERIDIANS 
+MDSYS               
+                    
+SDO_ELLIPSOIDS      
+MDSYS               
+                    
+SDO_DATUMS          
+MDSYS               
+                    
+SDO_COORD_SYS       
+MDSYS               
+                    
+SDO_COORD_AXIS_NAMES
+MDSYS               
+                    
+SDO_COORD_AXES      
+MDSYS               
+                    
+SDO_COORD_REF_SYS   
+MDSYS               
+                    
+SDO_COORD_OP_METHODS
+MDSYS               
+                    
+SDO_COORD_OPS       
+MDSYS               
+                    
+SDO_PREFERRED_OPS_SY
+STEM                
+MDSYS               
+                    
+SDO_PREFERRED_OPS_US
+ER                  
+MDSYS               
+                    
+SDO_COORD_OP_PATHS  
+MDSYS               
+                    
+SDO_COORD_OP_PARAMS 
+MDSYS               
+                    
+SDO_COORD_OP_PARAM_U
+SE                  
+MDSYS               
+                    
+SDO_COORD_OP_PARAM_V
+ALS                 
+MDSYS               
+                    
+SDO_CS_SRS          
+MDSYS               
+                    
+NTV2_XML_DATA       
+MDSYS               
+                    
+SDO_CRS_GEOGRAPHIC_P
+LUS_HEIGHT          
+MDSYS               
+                    
+SDO_PROJECTIONS_OLD_
+SNAPSHOT            
+MDSYS               
+                    
+SDO_ELLIPSOIDS_OLD_S
+NAPSHOT             
+MDSYS               
+                    
+SDO_DATUMS_OLD_SNAPS
+HOT                 
+MDSYS               
+                    
+SDO_XML_SCHEMAS     
+MDSYS               
+                    
+WWV_FLOW_DUAL100    
+APEX_040000         
+                    
+DEPT                
+SCOTT               
+                    
+EMP                 
+SCOTT               
+                    
+BONUS               
+SCOTT               
+                    
+SALGRADE            
+SCOTT               
+                    
+COPY_EMP            
+SCOTT               
+                    
+WWV_FLOW_TEMP_TABLE 
+APEX_040000         
+                    
+WWV_FLOW_LOV_TEMP   
+APEX_040000         
+                    
+SDO_TOPO_DATA$      
+MDSYS               
+                    
+SDO_TOPO_RELATION_DA
+TA                  
+MDSYS               
+                    
+SDO_TOPO_TRANSACT_DA
+TA                  
+MDSYS               
+                    
+SDO_CS_CONTEXT_INFOR
+MATION              
+MDSYS               
+                    
+SDO_TXN_IDX_EXP_UPD_
+RGN                 
+MDSYS               
+                    
+SDO_TXN_IDX_DELETES 
+MDSYS               
+                    
+SDO_TXN_IDX_INSERTS 
+MDSYS               
+                    
+SDO_ST_TOLERANCE    
+MDSYS               
+                    
+XDB$XIDX_IMP_T      
+XDB                 
+                    
+KU$_DATAPUMP_MASTER_
+10_1                
+SYS                 
+                    
+KU$_DATAPUMP_MASTER_
+11_1                
+SYS                 
+                    
+KU$_DATAPUMP_MASTER_
+11_1_0_7            
+SYS                 
+                    
+KU$_DATAPUMP_MASTER_
+11_2                
+SYS                 
+                    
+IMPDP_STATS         
+SYS                 
+                    
+ODCI_PMO_ROWIDS$    
+SYS                 
+                    
+ODCI_WARNINGS$      
+SYS                 
+                    
+ODCI_SECOBJ$        
+SYS                 
+                    
+KU$_LIST_FILTER_TEMP
+_2                  
+SYS                 
+                    
+KU$_LIST_FILTER_TEMP
+SYS                 
+                    
+KU$NOEXP_TAB        
+SYS                 
+                    
+OL$NODES            
+SYSTEM              
+                    
+OL$HINTS            
+SYSTEM              
+                    
+OL$                 
+SYSTEM              
+                    
+PLAN_TABLE$         
+SYS                 
+                    
+WRI$_ADV_ASA_RECO_DA
+TA                  
+SYS                 
+                    
+PSTUBTBL            
+SYS                 
+                    
+
+76 rows selected.
+
+SQL> SET LINES 800;
+SQL> SELECT TABLE_NAME,OWNER
+  2  FROM ALL_TABLES;
+
+TABLE_NAME                                                   OWNER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+------------------------------------------------------------ ------------------------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+DUAL                                                         SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+SYSTEM_PRIVILEGE_MAP                                         SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+TABLE_PRIVILEGE_MAP                                          SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+STMT_AUDIT_OPTION_MAP                                        SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+AUDIT_ACTIONS                                                SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+WRR$_REPLAY_CALL_FILTER                                      SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+HS_BULKLOAD_VIEW_OBJ                                         SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+HS$_PARALLEL_METADATA                                        SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+HS_PARTITION_COL_NAME                                        SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+HS_PARTITION_COL_TYPE                                        SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+HELP                                                         SYSTEM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+DR$OBJECT_ATTRIBUTE                                          CTXSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+DR$POLICY_TAB                                                CTXSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+DR$THS                                                       CTXSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+DR$THS_PHRASE                                                CTXSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+DR$NUMBER_SEQUENCE                                           CTXSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+SRSNAMESPACE_TABLE                                           MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+OGIS_SPATIAL_REFERENCE_SYSTEMS                               MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+OGIS_GEOMETRY_COLUMNS                                        MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_UNITS_OF_MEASURE                                         MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_PRIME_MERIDIANS                                          MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_ELLIPSOIDS                                               MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_DATUMS                                                   MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_COORD_SYS                                                MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_COORD_AXIS_NAMES                                         MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_COORD_AXES                                               MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_COORD_REF_SYS                                            MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_COORD_OP_METHODS                                         MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_COORD_OPS                                                MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_PREFERRED_OPS_SYSTEM                                     MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_PREFERRED_OPS_USER                                       MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_COORD_OP_PATHS                                           MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_COORD_OP_PARAMS                                          MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_COORD_OP_PARAM_USE                                       MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_COORD_OP_PARAM_VALS                                      MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_CS_SRS                                                   MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+NTV2_XML_DATA                                                MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_CRS_GEOGRAPHIC_PLUS_HEIGHT                               MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_PROJECTIONS_OLD_SNAPSHOT                                 MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_ELLIPSOIDS_OLD_SNAPSHOT                                  MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_DATUMS_OLD_SNAPSHOT                                      MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_XML_SCHEMAS                                              MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+WWV_FLOW_DUAL100                                             APEX_040000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+DEPT                                                         SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+EMP                                                          SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+BONUS                                                        SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SALGRADE                                                     SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+COPY_EMP                                                     SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+WWV_FLOW_TEMP_TABLE                                          APEX_040000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+WWV_FLOW_LOV_TEMP                                            APEX_040000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+SDO_TOPO_DATA$                                               MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_TOPO_RELATION_DATA                                       MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_TOPO_TRANSACT_DATA                                       MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_CS_CONTEXT_INFORMATION                                   MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_TXN_IDX_EXP_UPD_RGN                                      MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_TXN_IDX_DELETES                                          MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_TXN_IDX_INSERTS                                          MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SDO_ST_TOLERANCE                                             MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+XDB$XIDX_IMP_T                                               XDB                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+KU$_DATAPUMP_MASTER_10_1                                     SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+KU$_DATAPUMP_MASTER_11_1                                     SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+KU$_DATAPUMP_MASTER_11_1_0_7                                 SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+KU$_DATAPUMP_MASTER_11_2                                     SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+IMPDP_STATS                                                  SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+ODCI_PMO_ROWIDS$                                             SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+ODCI_WARNINGS$                                               SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+ODCI_SECOBJ$                                                 SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+KU$_LIST_FILTER_TEMP_2                                       SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+KU$_LIST_FILTER_TEMP                                         SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+KU$NOEXP_TAB                                                 SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+OL$NODES                                                     SYSTEM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+OL$HINTS                                                     SYSTEM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+OL$                                                          SYSTEM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+PLAN_TABLE$                                                  SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+WRI$_ADV_ASA_RECO_DATA                                       SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+PSTUBTBL                                                     SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+76 rows selected.
+
+SQL> -- 3. DB관리자가 보는 정보 : DBA_
+SQL> SHOW USER;
+USER is "SCOTT"
+SQL> CONNECT system/oracle
+Connected.
+SQL> SHOW USER;
+USER is "SYSTEM"
+SQL> DESC DBA_USERS;
+ Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ USERNAME                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  NOT NULL VARCHAR2(30)
+ USER_ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   NOT NULL NUMBER
+ PASSWORD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           VARCHAR2(30)
+ ACCOUNT_STATUS                                                                                                                                                                                                                                                                                                                                                                                                                                                                            NOT NULL VARCHAR2(32)
+ LOCK_DATE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          DATE
+ EXPIRY_DATE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        DATE
+ DEFAULT_TABLESPACE                                                                                                                                                                                                                                                                                                                                                                                                                                                                        NOT NULL VARCHAR2(30)
+ TEMPORARY_TABLESPACE                                                                                                                                                                                                                                                                                                                                                                                                                                                                      NOT NULL VARCHAR2(30)
+ CREATED                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   NOT NULL DATE
+ PROFILE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   NOT NULL VARCHAR2(30)
+ INITIAL_RSRC_CONSUMER_GROUP                                                                                                                                                                                                                                                                                                                                                                                                                                                                        VARCHAR2(30)
+ EXTERNAL_NAME                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      VARCHAR2(4000)
+ PASSWORD_VERSIONS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  VARCHAR2(8)
+ EDITIONS_ENABLED                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   VARCHAR2(1)
+ AUTHENTICATION_TYPE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                VARCHAR2(8)
+
+SQL> SELECT USERNAME, PASSWORD
+  2  FROM DBA_USERS;
+
+USERNAME                                                     PASSWORD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------ ------------------------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+SYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+SYSTEM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+ANONYMOUS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+APEX_PUBLIC_USER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+FLOWS_FILES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+APEX_040000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+OUTLN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+DIP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+ORACLE_OCM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+XS$NULL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+MDSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+CTXSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+DBSNMP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+XDB                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+APPQOSSYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+HR                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+
+17 rows selected.
+
+SQL> -- 4. 동적이면서 성능과 관련된 정보
+SQL> -- ex) 현재 접속자 수, 메모리 관련 정보
+SQL> 
+SQL> spool off

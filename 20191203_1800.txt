@@ -1,0 +1,53 @@
+SQL> -- ailas : º°Äª
+SQL> select ename,sal*12
+  2  from emp;
+
+ENAME                    SAL*12                                                 
+-------------------- ----------                                                 
+SMITH                      9600                                                 
+ALLEN                     19200                                                 
+WARD                      15000                                                 
+JONES                     35700                                                 
+MARTIN                    15000                                                 
+BLAKE                     34200                                                 
+CLARK                     29400                                                 
+KING                      60000                                                 
+TURNER                    18000                                                 
+JAMES                     11400                                                 
+FORD                      36000                                                 
+
+ENAME                    SAL*12                                                 
+-------------------- ----------                                                 
+MILLER                    15600                                                 
+
+12 rows selected.
+
+SQL> select ename,sal,sal*12 fullsal
+  2  from emp;
+
+ENAME                       SAL    FULLSAL                                      
+-------------------- ---------- ----------                                      
+SMITH                       800       9600                                      
+ALLEN                      1600      19200                                      
+WARD                       1250      15000                                      
+JONES                      2975      35700                                      
+MARTIN                     1250      15000                                      
+BLAKE                      2850      34200                                      
+CLARK                      2450      29400                                      
+KING                       5000      60000                                      
+TURNER                     1500      18000                                      
+JAMES                       950      11400                                      
+FORD                       3000      36000                                      
+
+ENAME                       SAL    FULLSAL                                      
+-------------------- ---------- ----------                                      
+MILLER                     1300      15600                                      
+
+12 rows selected.
+
+SQL> -- º°Äª ºÎ¿© ¹æ¹ý
+SQL> -- 1, Å°¿öµå º°Äª
+SQL> -- 2, Å°¿öµå AS º°Äª
+SQL> -- 3,(±ÇÀå) Å°¿öµå as º°Äª
+SQL> -- 4(±ÇÀå) Å°¿öµå as "º°Äª"
+SQL> spool off

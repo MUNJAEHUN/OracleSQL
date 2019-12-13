@@ -1,0 +1,306 @@
+
+C:\>sqlplus system/oracle
+
+SQL*Plus: Release 11.2.0.2.0 Production on 화 12월 3 14:53:51 2019
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+SQL> show user
+USER is "SYSTEM"
+SQL> alter user scott
+  2  identified by tiger
+  3  account unlock;
+
+User altered.
+
+SQL> exit
+Disconnected from Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+C:\>sqlplus scott/tiger
+
+SQL*Plus: Release 11.2.0.2.0 Production on 화 12월 3 14:57:31 2019
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+SQL>
+
+=====================================================================================2:58
+
+
+로그인 접근법
+a[] =>(요청) dbms[] => NAVER()
+
+======================================================================================
+
+SQL = structured query language 
+
+
+Select *|{DISTINCT}
+column|expression 표현식 /연산식
+alias 별칭
+
+-- : 주석 
+
+
+
+========================================================================================
+
+SQL> select * from table
+  2  ;
+
+*
+ERROR at line 2:
+ORA-00906: missing left parenthesis
+
+
+SQL> select * from table;
+select * from table
+                  *
+ERROR at line 1:
+ORA-00906: missing left parenthesis
+
+
+SQL> select * from tab;
+
+TNAME                                                        TABTYPE
+------------------------------------------------------------ --------------
+ CLUSTERID
+----------
+BONUS                                                        TABLE
+
+
+DEPT                                                         TABLE
+
+
+EMP                                                          TABLE
+
+
+
+TNAME                                                        TABTYPE
+------------------------------------------------------------ --------------
+ CLUSTERID
+----------
+SALGRADE                                                     TABLE
+
+
+
+SQL> col tname format a30
+SQL> select * from tab;
+
+TNAME                          TABTYPE         CLUSTERID
+------------------------------ -------------- ----------
+BONUS                          TABLE
+DEPT                           TABLE
+EMP                            TABLE
+SALGRADE                       TABLE
+
+SQL> show user
+USER is "SCOTT"
+SQL> --이것은 주석
+SQL> select * from tab;
+
+TNAME                          TABTYPE         CLUSTERID
+------------------------------ -------------- ----------
+BONUS                          TABLE
+DEPT                           TABLE
+EMP                            TABLE
+SALGRADE                       TABLE
+
+SQL> desc emp
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> -- Desc >> 내 dbms를 통해 db에 있는 정보를 요약
+SQL> --comm >> 수당
+SQL> select * from tab;
+
+TNAME                          TABTYPE         CLUSTERID
+------------------------------ -------------- ----------
+BONUS                          TABLE
+DEPT                           TABLE
+EMP                            TABLE
+SALGRADE                       TABLE
+
+SQL> select * from emp;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE
+---------- -------------------- ------------------ ---------- --------
+       SAL       COMM     DEPTNO
+---------- ---------- ----------
+      7369 SMITH                CLERK                    7902 80/12/17
+       800                    20
+
+      7499 ALLEN                SALESMAN                 7698 81/02/20
+      1600        300         30
+
+      7521 WARD                 SALESMAN                 7698 81/02/22
+      1250        500         30
+
+
+     EMPNO ENAME                JOB                       MGR HIREDATE
+---------- -------------------- ------------------ ---------- --------
+       SAL       COMM     DEPTNO
+---------- ---------- ----------
+      7566 JONES                MANAGER                  7839 81/04/02
+      2975                    20
+
+      7654 MARTIN               SALESMAN                 7698 81/09/28
+      1250       1400         30
+
+      7698 BLAKE                MANAGER                  7839 81/05/01
+      2850                    30
+
+
+     EMPNO ENAME                JOB                       MGR HIREDATE
+---------- -------------------- ------------------ ---------- --------
+       SAL       COMM     DEPTNO
+---------- ---------- ----------
+      7782 CLARK                MANAGER                  7839 81/06/09
+      2450                    10
+
+      7839 KING                 PRESIDENT                     81/11/17
+      5000                    10
+
+      7844 TURNER               SALESMAN                 7698 81/09/08
+      1500          0         30
+
+
+     EMPNO ENAME                JOB                       MGR HIREDATE
+---------- -------------------- ------------------ ---------- --------
+       SAL       COMM     DEPTNO
+---------- ---------- ----------
+      7900 JAMES                CLERK                    7698 81/12/03
+       950                    30
+
+      7902 FORD                 ANALYST                  7566 81/12/03
+      3000                    20
+
+      7934 MILLER               CLERK                    7782 82/01/23
+      1300                    10
+
+
+12 rows selected.
+
+SQL> set lines 800
+SQL> select * from emp;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM     DEPTNO
+---------- -------------------- ------------------ ---------- -------- ---------- ---------- ----------
+      7369 SMITH                CLERK                    7902 80/12/17        800                    20
+      7499 ALLEN                SALESMAN                 7698 81/02/20       1600        300         30
+      7521 WARD                 SALESMAN                 7698 81/02/22       1250        500         30
+      7566 JONES                MANAGER                  7839 81/04/02       2975                    20
+      7654 MARTIN               SALESMAN                 7698 81/09/28       1250       1400         30
+      7698 BLAKE                MANAGER                  7839 81/05/01       2850                    30
+      7782 CLARK                MANAGER                  7839 81/06/09       2450                    10
+      7839 KING                 PRESIDENT                     81/11/17       5000                    10
+      7844 TURNER               SALESMAN                 7698 81/09/08       1500          0         30
+      7900 JAMES                CLERK                    7698 81/12/03        950                    30
+      7902 FORD                 ANALYST                  7566 81/12/03       3000                    20
+
+     EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM     DEPTNO
+---------- -------------------- ------------------ ---------- -------- ---------- ---------- ----------
+      7934 MILLER               CLERK                    7782 82/01/23       1300                    10
+
+12 rows selected.
+
+SQL> desc dept
+ Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ DEPTNO                                                                                                                                                                                                                                                                                                                                                                                                                                                                            NOT NULL NUMBER(2)
+ DNAME                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  VARCHAR2(14)
+ LOC                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    VARCHAR2(13)
+
+SQL> desc dept;
+ Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ DEPTNO                                                                                                                                                                                                                                                                                                                                                                                                                                                                            NOT NULL NUMBER(2)
+ DNAME                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  VARCHAR2(14)
+ LOC                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    VARCHAR2(13)
+
+SQL> set lines 500
+SQL> desc dept;
+ Name                                                                                                                                                                                                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ DEPTNO                                                                                                                                                                                                                                                                                            NOT NULL NUMBER(2)
+ DNAME                                                                                                                                                                                                                                                                                                      VARCHAR2(14)
+ LOC                                                                                                                                                                                                                                                                                                        VARCHAR2(13)
+
+SQL> set lines 100
+SQL> desc dept;
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ DEPTNO                                                NOT NULL NUMBER(2)
+ DNAME                                                          VARCHAR2(14)
+ LOC                                                            VARCHAR2(13)
+
+SQL>
+
+===========================================================================================
+
+SQL> -- 사원이름, 부서번호 조회
+SQL> select empno, deptno from emp;
+
+     EMPNO     DEPTNO
+---------- ----------
+      7369         20
+      7499         30
+      7521         30
+      7566         20
+      7654         30
+      7698         30
+      7782         10
+      7839         10
+      7844         30
+      7900         30
+      7902         20
+
+     EMPNO     DEPTNO
+---------- ----------
+      7934         10
+
+12 rows selected.
+
+SQL> select ename, deptno
+  2  from emp;
+
+ENAME                    DEPTNO
+-------------------- ----------
+SMITH                        20
+ALLEN                        30
+WARD                         30
+JONES                        20
+MARTIN                       30
+BLAKE                        30
+CLARK                        10
+KING                         10
+TURNER                       30
+JAMES                        30
+FORD                         20
+
+ENAME                    DEPTNO
+-------------------- ----------
+MILLER                       10
+
+12 rows selected.
+
+SQL>
+
+
+==========================================================================

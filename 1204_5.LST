@@ -1,0 +1,108 @@
+16:42:51 SQL> -- 버퍼를 이용하여 메모장으로 작업을 할수있다
+16:43:03 SQL> --역순으로
+16:43:26 SQL> 
+16:43:27 SQL> SELECT ENAME,SAL,DEPTNO
+16:43:49   2  ;
+
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+16:43:50 SQL> SELECT ENAME,SAL,DEPTNO
+16:43:55   2  FROM EMP;
+
+ENAME                       SAL     DEPTNO                                                          
+-------------------- ---------- ----------                                                          
+SMITH                       800         20                                                          
+ALLEN                      1600         30                                                          
+WARD                       1250         30                                                          
+JONES                      2975         20                                                          
+MARTIN                     1250         30                                                          
+BLAKE                      2850         30                                                          
+CLARK                      2450         10                                                          
+KING                       5000         10                                                          
+TURNER                     1500         30                                                          
+JAMES                       950         30                                                          
+FORD                       3000         20                                                          
+
+ENAME                       SAL     DEPTNO                                                          
+-------------------- ---------- ----------                                                          
+MILLER                     1300         10                                                          
+
+12 rows selected.
+
+16:44:01 SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,SAL,DEPTNO
+  2* FROM EMP;
+16:44:28 SQL> -- ED를 통해 버퍼에 있는 명령을 수정하여 한번에 작업가능하게 만든다
+16:44:59 SQL> SELECT ENAME,SAL,COMM,DEPTNO
+16:45:12   2  FROM EMP
+16:45:16   3  WHERE SAL=800
+16:45:23   4  ;
+
+ENAME                       SAL       COMM     DEPTNO                                               
+-------------------- ---------- ---------- ----------                                               
+SMITH                       800                    20                                               
+
+16:45:25 SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,SAL,COMM,DEPTNO
+  2  FROM EMP
+  3* WHERE SAL=800;
+16:45:32   4  
+16:45:36 SQL> 
+16:45:36 SQL> /
+WHERE SAL=800;
+             *
+ERROR at line 3:
+ORA-00911: invalid character 
+
+
+16:45:41 SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,SAL,COMM,DEPTNO
+  2  FROM EMP
+  3* WHERE SAL=800
+16:46:02 SQL> 
+16:46:02 SQL> 
+16:46:02 SQL> 
+16:46:02 SQL> /
+
+ENAME                       SAL       COMM     DEPTNO                                               
+-------------------- ---------- ---------- ----------                                               
+SMITH                       800                    20                                               
+
+16:46:04 SQL> -- ED 이용시 하나의 SQL 문장만 사용가능
+16:47:29 SQL> -- 2. 문장 종결자는 다음라인 '/'
+16:47:52 SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,SAL,COMM,DEPTNO
+  2  FROM EMP
+  3* WHERE SAL=800
+16:48:40 SQL> DESC EMP;
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ EMPNO                                                 NOT NULL NUMBER(4)
+ ENAME                                                          VARCHAR2(10)
+ JOB                                                            VARCHAR2(9)
+ MGR                                                            NUMBER(4)
+ HIREDATE                                                       DATE
+ SAL                                                            NUMBER(7,2)
+ COMM                                                           NUMBER(7,2)
+ DEPTNO                                                         NUMBER(2)
+
+16:48:47 SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,SAL,COMM,DEPTNO
+  2  FROM EMP
+  3* WHERE SAL=800
+16:48:51 SQL> SPOOL
+currently spooling to 1204_5.LST
+16:51:04 SQL> SPOOL OFF

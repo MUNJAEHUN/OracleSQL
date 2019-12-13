@@ -1,0 +1,27 @@
+SQL> select * from tab;
+
+TNAME                                                        TABTYPE            
+------------------------------------------------------------ --------------     
+ CLUSTERID                                                                      
+----------                                                                      
+BONUS                                                        TABLE              
+                                                                                
+                                                                                
+DEPT                                                         TABLE              
+                                                                                
+                                                                                
+EMP                                                          TABLE              
+                                                                                
+                                                                                
+
+TNAME                                                        TABTYPE            
+------------------------------------------------------------ --------------     
+ CLUSTERID                                                                      
+----------                                                                      
+SALGRADE                                                     TABLE              
+                                                                                
+                                                                                
+
+SQL> -- spool 작성시 txt 파일로 작성하자
+SQL> -- spool 20191203_1700
+SQL> spool off

@@ -1,0 +1,617 @@
+14:43:59 SQL> clear screen
+
+14:44:08 SQL> select ename,sal,job
+14:46:39   2  from emp
+14:46:42   3  where sal between 3000 AND 5000;
+
+ENAME                       SAL JOB                                                                 
+-------------------- ---------- ------------------                                                  
+KING                       5000 PRESIDENT                                                           
+FORD                       3000 ANALYST                                                             
+
+14:47:00 SQL> select ename, comm
+14:48:03   2  from emp;
+
+ENAME                      COMM                                                                     
+-------------------- ----------                                                                     
+SMITH                                                                                               
+ALLEN                       300                                                                     
+WARD                        500                                                                     
+JONES                                                                                               
+MARTIN                     1400                                                                     
+BLAKE                                                                                               
+CLARK                                                                                               
+KING                                                                                                
+TURNER                        0                                                                     
+JAMES                                                                                               
+FORD                                                                                                
+
+ENAME                      COMM                                                                     
+-------------------- ----------                                                                     
+MILLER                                                                                              
+
+12 rows selected.
+
+14:48:06 SQL> select ename, comm
+14:48:09   2  from emp
+14:48:10   3  where comm = 300 OR comm=500 OR comm=1400;
+
+ENAME                      COMM                                                                     
+-------------------- ----------                                                                     
+ALLEN                       300                                                                     
+WARD                        500                                                                     
+MARTIN                     1400                                                                     
+
+14:48:28 SQL> where in comm(300,500,1400);
+SP2-0734: unknown command beginning "where in c..." - rest of line ignored.
+14:48:41 SQL> select ename, comm
+14:48:47   2  from emp
+14:48:49   3  where in comm(300,500,1400);
+where in comm(300,500,1400)
+      *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+14:48:51 SQL> where comm in(300,500,1400);
+SP2-0734: unknown command beginning "where comm..." - rest of line ignored.
+14:48:59 SQL> select ename, comm
+14:49:02   2  from emp
+14:49:02   3  where comm in(300,500,1400);
+
+ENAME                      COMM                                                                     
+-------------------- ----------                                                                     
+ALLEN                       300                                                                     
+WARD                        500                                                                     
+MARTIN                     1400                                                                     
+
+14:49:03 SQL> --실 : 부서번호20 30
+14:49:59 SQL> select ename,deptno
+14:50:11   2  from emp
+14:50:13   3  where deptno=20 OR dept=30;
+where deptno=20 OR dept=30
+                   *
+ERROR at line 3:
+ORA-00904: "DEPT": invalid identifier 
+
+
+14:50:27 SQL> select ename,deptno
+14:50:33   2  from emp
+14:50:34   3  where deptno=20 OR deptno=30;
+
+ENAME                    DEPTNO                                                                     
+-------------------- ----------                                                                     
+SMITH                        20                                                                     
+ALLEN                        30                                                                     
+WARD                         30                                                                     
+JONES                        20                                                                     
+MARTIN                       30                                                                     
+BLAKE                        30                                                                     
+TURNER                       30                                                                     
+JAMES                        30                                                                     
+FORD                         20                                                                     
+
+9 rows selected.
+
+14:50:37 SQL> select ename,deptno
+14:50:39   2  from emp
+14:50:39   3  where deptno in(20,30);
+
+ENAME                    DEPTNO                                                                     
+-------------------- ----------                                                                     
+SMITH                        20                                                                     
+ALLEN                        30                                                                     
+WARD                         30                                                                     
+JONES                        20                                                                     
+MARTIN                       30                                                                     
+BLAKE                        30                                                                     
+TURNER                       30                                                                     
+JAMES                        30                                                                     
+FORD                         20                                                                     
+
+9 rows selected.
+
+14:50:47 SQL> 
+14:55:13 SQL> 
+14:55:14 SQL> 
+14:55:14 SQL> 
+14:55:14 SQL> 
+14:55:15 SQL> 
+14:55:15 SQL> -- null 찾기
+14:55:22 SQL> select empno,ename,mgr
+14:55:56   2  from emp
+14:55:58   3  where mgr is null;
+
+     EMPNO ENAME                       MGR                                                          
+---------- -------------------- ----------                                                          
+      7839 KING                                                                                     
+
+14:56:08 SQL> -- 실습 : COMM 튜플 없는 사원 이름
+14:58:55 SQL> SELECT ENAME,COMM,SAL
+14:59:04   2  FROM EMP
+14:59:07   3  WHERE COMM IS NULL;
+
+ENAME                      COMM        SAL                                                          
+-------------------- ---------- ----------                                                          
+SMITH                                  800                                                          
+JONES                                 2975                                                          
+BLAKE                                 2850                                                          
+CLARK                                 2450                                                          
+KING                                  5000                                                          
+JAMES                                  950                                                          
+FORD                                  3000                                                          
+MILLER                                1300                                                          
+
+8 rows selected.
+
+14:59:15 SQL> SELECT ENAME,COMM,SAL
+15:03:55   2  FROM EMP
+15:03:56   3  WHERE COMM IS NOT NULL;
+
+ENAME                      COMM        SAL                                                          
+-------------------- ---------- ----------                                                          
+ALLEN                       300       1600                                                          
+WARD                        500       1250                                                          
+MARTIN                     1400       1250                                                          
+TURNER                        0       1500                                                          
+
+15:04:02 SQL> -- LIKE문
+15:05:58 SQL> -- 김%, %수, %영
+15:07:06 SQL> -- 김12 , 123수, %영% -> 123영456
+15:07:21 SQL> SELECT *
+15:08:24   2  FROM EMP
+15:08:27   3  WHERE ENAME LIKE 'S';
+
+no rows selected
+
+15:08:58 SQL> WHERE ENAME LIKE 'S%';
+SP2-0734: unknown command beginning "WHERE ENAM..." - rest of line ignored.
+15:09:03 SQL> SELECT EMPNO,ENAME,JOB,SAL
+15:09:19   2  FROM EMP
+15:09:21   3  WHERE ENAME LIKE 'S';
+
+no rows selected
+
+15:09:34 SQL> SELECT EMPNO,ENAME,JOB,SAL
+15:09:39   2  FROM EMP
+15:09:39   3  WHERE ENAME LIKE 'S%';
+
+     EMPNO ENAME                JOB                       SAL                                       
+---------- -------------------- ------------------ ----------                                       
+      7369 SMITH                CLERK                     800                                       
+
+15:09:46 SQL> WHERE ENAME LIKE '%S%';
+SP2-0734: unknown command beginning "WHERE ENAM..." - rest of line ignored.
+15:09:51 SQL> SELECT EMPNO,ENAME,JOB,SAL
+15:09:57   2  FROM EMP
+15:09:58   3  WHERE ENAME LIKE '%S';
+
+     EMPNO ENAME                JOB                       SAL                                       
+---------- -------------------- ------------------ ----------                                       
+      7566 JONES                MANAGER                  2975                                       
+      7900 JAMES                CLERK                     950                                       
+
+15:10:03 SQL> SELECT EMPNO,ENAME,JOB,SAL
+15:10:35   2  
+15:10:38 SQL> 
+15:10:38 SQL> --%는 ‘모든 문자’라는 의미고, _는 ‘한 글자’
+15:10:40 SQL> SELECT EMPNO,ENAME,JOB,SAL
+15:11:05   2  FROM EMP
+15:11:09   3  WHERE ENAME LIKE '%S%';
+
+     EMPNO ENAME                JOB                       SAL                                       
+---------- -------------------- ------------------ ----------                                       
+      7369 SMITH                CLERK                     800                                       
+      7566 JONES                MANAGER                  2975                                       
+      7900 JAMES                CLERK                     950                                       
+
+15:11:11 SQL> -- _ : 자리수
+15:14:48 SQL> SELECT ENAME
+15:15:04   2  FROM EMP
+15:15:07   3  WHERE ENAME LIKE '_A';
+
+no rows selected
+
+15:15:24 SQL> SELECT ENAME
+15:15:35   2  FROM EMP
+15:15:38   3  SELECT ENAME '_A%';
+SELECT ENAME '_A%'
+*
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+15:15:57 SQL> SELECT ENAME
+15:16:01   2  FROM EMP
+15:16:02   3  WHERE ENAME LIKE '_A%';
+
+ENAME                                                                                               
+--------------------                                                                                
+WARD                                                                                                
+MARTIN                                                                                              
+JAMES                                                                                               
+
+15:16:11 SQL> SELECT ENAME
+15:17:37   2  FROM EMP
+15:17:37   3  WHERE ENAME LIKE '__O%';
+
+no rows selected
+
+15:17:53 SQL> SELECT ENAME
+15:18:08   2  WHERE ENAME LIKE '__O%';
+WHERE ENAME LIKE '__O%'
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+15:18:10 SQL> SELECT ENAME
+15:18:12   2  FROM EMP
+15:18:15   3  WHERE ENAME LIKE '__M%';
+
+ENAME                                                                                               
+--------------------                                                                                
+JAMES                                                                                               
+
+15:18:24 SQL> SELECT ENAME
+15:18:33   2  FROM EMP
+15:18:33   3  WHERE ENAME NOT LIKE '__M%';
+
+ENAME                                                                                               
+--------------------                                                                                
+SMITH                                                                                               
+ALLEN                                                                                               
+WARD                                                                                                
+JONES                                                                                               
+MARTIN                                                                                              
+BLAKE                                                                                               
+CLARK                                                                                               
+KING                                                                                                
+TURNER                                                                                              
+FORD                                                                                                
+MILLER                                                                                              
+
+11 rows selected.
+
+15:18:43 SQL> SELECT ENAME,HIREDATE,JOB
+15:19:47   2  FROM EMP
+15:19:49   3  WHERE HIREDATE LIKE '%1982%';
+
+no rows selected
+
+15:20:17 SQL> SELECT ENAME,HIREDATE,JOB
+15:20:22   2  FROM EMP
+15:20:23   3  WHERE HIREDATE LIKE '1982%';
+
+no rows selected
+
+15:20:29 SQL> SELECT ENAME,HIREDATE,JOB
+15:20:31   2  FROM EMP
+15:20:32   3  WHERE HIREDATE BETWEEN '1982/01/01' AND '1982/12/31';
+
+ENAME                HIREDATE JOB                                                                   
+-------------------- -------- ------------------                                                    
+MILLER               82/01/23 CLERK                                                                 
+
+15:21:16 SQL> SELECT ENAME, HIREDATE,JOB
+15:39:24   2  FROM EMP
+15:39:26   3  WHERE HIREDATE LIKE '82%';
+
+ENAME                HIREDATE JOB                                                                   
+-------------------- -------- ------------------                                                    
+MILLER               82/01/23 CLERK                                                                 
+
+15:39:41 SQL> SELECT ENAME, HIREDATE,JOB
+15:44:58   2  FROM EMP
+15:44:58   3  WHERE HIREDATE LIKE '%82%';
+
+ENAME                HIREDATE JOB                                                                   
+-------------------- -------- ------------------                                                    
+MILLER               82/01/23 CLERK                                                                 
+
+15:45:03 SQL> SELECT ENAME, HIREDATE,JOB
+15:45:08   2  FROM EMP
+15:45:09   3  WHERE HIREDATE LIKE '82%';
+
+ENAME                HIREDATE JOB                                                                   
+-------------------- -------- ------------------                                                    
+MILLER               82/01/23 CLERK                                                                 
+
+15:45:16 SQL> -- NOT ,
+15:46:19 SQL> SELECT ENAME,SAL,JOB
+15:46:29   2  FROM EMP
+15:46:31   3  WHERE JOB <> 'SALESMAN';
+
+ENAME                       SAL JOB                                                                 
+-------------------- ---------- ------------------                                                  
+SMITH                       800 CLERK                                                               
+JONES                      2975 MANAGER                                                             
+BLAKE                      2850 MANAGER                                                             
+CLARK                      2450 MANAGER                                                             
+KING                       5000 PRESIDENT                                                           
+JAMES                       950 CLERK                                                               
+FORD                       3000 ANALYST                                                             
+MILLER                     1300 CLERK                                                               
+
+8 rows selected.
+
+15:47:09 SQL> FROM EMP
+SP2-0042: unknown command "FROM EMP" - rest of line ignored.
+15:47:11 SQL> WHERE HIREDATE LIKE '82%';
+SP2-0734: unknown command beginning "WHERE HIRE..." - rest of line ignored.
+15:47:13 SQL> SELECT ENAME, HIREDATE,JOB
+15:47:16   2  FROM EMP
+15:47:16   3  WHERE JOB NOT 'SALESMAN';
+WHERE JOB NOT 'SALESMAN'
+              *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+15:47:25 SQL> WHERE JOB IS NOT 'SALESMAN';
+SP2-0734: unknown command beginning "WHERE JOB ..." - rest of line ignored.
+15:47:30 SQL> SELECT ENAME, HIREDATE,JOB
+15:47:34   2  FROM EMP
+15:47:34   3  WHERE NOT JOB 'SALESMAN';
+WHERE NOT JOB 'SALESMAN'
+              *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+15:47:45 SQL> FROM EMP
+SP2-0042: unknown command "FROM EMP" - rest of line ignored.
+15:47:50 SQL> SELECT ENAME, HIREDATE,JOB
+15:47:53   2  FROM EMP
+15:47:55   3  WHERE NOT JOB= 'SALESMAN';
+
+ENAME                HIREDATE JOB                                                                   
+-------------------- -------- ------------------                                                    
+SMITH                80/12/17 CLERK                                                                 
+JONES                81/04/02 MANAGER                                                               
+BLAKE                81/05/01 MANAGER                                                               
+CLARK                81/06/09 MANAGER                                                               
+KING                 81/11/17 PRESIDENT                                                             
+JAMES                81/12/03 CLERK                                                                 
+FORD                 81/12/03 ANALYST                                                               
+MILLER               82/01/23 CLERK                                                                 
+
+8 rows selected.
+
+15:48:06 SQL> -- 연산자 우선순서
+15:50:35 SQL> -- 산술- 연결-비교 -IS,NULL,LIKE,IN-BETWEEN-같지않음-NOT논리-AND논리-OR논리
+15:51:26 SQL> -- 최 우선은 ()
+15:51:31 SQL> SELECT ENAME, HIREDATE,JOB
+15:53:35   2  FROM EMP
+15:53:37   3  
+15:53:40 SQL> 
+15:53:40 SQL> 
+15:53:40 SQL> 
+15:53:40 SQL> 
+15:53:40 SQL> SELECT * FROM EMP
+15:53:52   2  ORDER BY DESC;
+ORDER BY DESC
+         *
+ERROR at line 2:
+ORA-00936: missing expression 
+
+
+15:53:58 SQL> ORDER BY DEC;
+SP2-0734: unknown command beginning "ORDER BY D..." - rest of line ignored.
+15:54:04 SQL> SELECT ENAME, HIREDATE,JOB
+15:54:27   2  FROM EMP
+15:54:30   3  ORDER BY HIREDATE ASC;
+
+ENAME                HIREDATE JOB                                                                   
+-------------------- -------- ------------------                                                    
+SMITH                80/12/17 CLERK                                                                 
+ALLEN                81/02/20 SALESMAN                                                              
+WARD                 81/02/22 SALESMAN                                                              
+JONES                81/04/02 MANAGER                                                               
+BLAKE                81/05/01 MANAGER                                                               
+CLARK                81/06/09 MANAGER                                                               
+TURNER               81/09/08 SALESMAN                                                              
+MARTIN               81/09/28 SALESMAN                                                              
+KING                 81/11/17 PRESIDENT                                                             
+JAMES                81/12/03 CLERK                                                                 
+FORD                 81/12/03 ANALYST                                                               
+
+ENAME                HIREDATE JOB                                                                   
+-------------------- -------- ------------------                                                    
+MILLER               82/01/23 CLERK                                                                 
+
+12 rows selected.
+
+15:54:41 SQL> -- 정령
+15:59:54 SQL> --정렬
+15:59:57 SQL> SELECT EMPNO,ENAME,SAL
+16:00:08   2  FROM EMP;
+
+     EMPNO ENAME                       SAL                                                          
+---------- -------------------- ----------                                                          
+      7369 SMITH                       800                                                          
+      7499 ALLEN                      1600                                                          
+      7521 WARD                       1250                                                          
+      7566 JONES                      2975                                                          
+      7654 MARTIN                     1250                                                          
+      7698 BLAKE                      2850                                                          
+      7782 CLARK                      2450                                                          
+      7839 KING                       5000                                                          
+      7844 TURNER                     1500                                                          
+      7900 JAMES                       950                                                          
+      7902 FORD                       3000                                                          
+
+     EMPNO ENAME                       SAL                                                          
+---------- -------------------- ----------                                                          
+      7934 MILLER                     1300                                                          
+
+12 rows selected.
+
+16:00:11 SQL> SELECT ENAME,EMPNO,SAL
+16:00:24   2  FROM EMP
+16:00:30   3  ORDER BY EMPNO DESC
+16:00:41   4  ;
+
+ENAME                     EMPNO        SAL                                                          
+-------------------- ---------- ----------                                                          
+MILLER                     7934       1300                                                          
+FORD                       7902       3000                                                          
+JAMES                      7900        950                                                          
+TURNER                     7844       1500                                                          
+KING                       7839       5000                                                          
+CLARK                      7782       2450                                                          
+BLAKE                      7698       2850                                                          
+MARTIN                     7654       1250                                                          
+JONES                      7566       2975                                                          
+WARD                       7521       1250                                                          
+ALLEN                      7499       1600                                                          
+
+ENAME                     EMPNO        SAL                                                          
+-------------------- ---------- ----------                                                          
+SMITH                      7369        800                                                          
+
+12 rows selected.
+
+16:00:43 SQL>  -- DBMS의 결과 반환값은 시스템에서 반환하기 쉽게 반환
+16:01:29 SQL> --이는  정렬이 안되어있음
+16:01:37 SQL> 
+16:03:29 SQL> 
+16:03:29 SQL> -- ALIAS 컬럼을 기준으로 정렬
+16:03:43 SQL> SELECT ENAME,SAL*12,
+16:03:52   2  FROM EMP
+16:03:55   3  ORDER BY SAL*12 DESC;
+FROM EMP
+*
+ERROR at line 2:
+ORA-00936: missing expression 
+
+
+16:04:25 SQL> SELECT ENAME,SAL*12
+16:04:34   2  FROM EMP
+16:04:35   3  ORDER BY SAL*12 DESC;
+
+ENAME                    SAL*12                                                                     
+-------------------- ----------                                                                     
+KING                      60000                                                                     
+FORD                      36000                                                                     
+JONES                     35700                                                                     
+BLAKE                     34200                                                                     
+CLARK                     29400                                                                     
+ALLEN                     19200                                                                     
+TURNER                    18000                                                                     
+MILLER                    15600                                                                     
+MARTIN                    15000                                                                     
+WARD                      15000                                                                     
+JAMES                     11400                                                                     
+
+ENAME                    SAL*12                                                                     
+-------------------- ----------                                                                     
+SMITH                      9600                                                                     
+
+12 rows selected.
+
+16:04:46 SQL> SELECT ENAME,SAL*12 FULLSAL
+16:05:25   2  FROM EMP
+16:05:30   3  ORDER BY FULLSAL DESC;
+
+ENAME                   FULLSAL                                                                     
+-------------------- ----------                                                                     
+KING                      60000                                                                     
+FORD                      36000                                                                     
+JONES                     35700                                                                     
+BLAKE                     34200                                                                     
+CLARK                     29400                                                                     
+ALLEN                     19200                                                                     
+TURNER                    18000                                                                     
+MILLER                    15600                                                                     
+MARTIN                    15000                                                                     
+WARD                      15000                                                                     
+JAMES                     11400                                                                     
+
+ENAME                   FULLSAL                                                                     
+-------------------- ----------                                                                     
+SMITH                      9600                                                                     
+
+12 rows selected.
+
+16:05:42 SQL> SELECT ENAME,SAL*12 FULLSAL
+16:06:44   2  FROM EMP
+16:06:45   3  ORDER BY 2 DESC;
+
+ENAME                   FULLSAL                                                                     
+-------------------- ----------                                                                     
+KING                      60000                                                                     
+FORD                      36000                                                                     
+JONES                     35700                                                                     
+BLAKE                     34200                                                                     
+CLARK                     29400                                                                     
+ALLEN                     19200                                                                     
+TURNER                    18000                                                                     
+MILLER                    15600                                                                     
+MARTIN                    15000                                                                     
+WARD                      15000                                                                     
+JAMES                     11400                                                                     
+
+ENAME                   FULLSAL                                                                     
+-------------------- ----------                                                                     
+SMITH                      9600                                                                     
+
+12 rows selected.
+
+16:06:53 SQL> SELECT ENAME,SAL*12 FULLSAL
+16:07:20   2  FROM EMP
+16:07:21   3  ORDER BY 1 DESC;
+
+ENAME                   FULLSAL                                                                     
+-------------------- ----------                                                                     
+WARD                      15000                                                                     
+TURNER                    18000                                                                     
+SMITH                      9600                                                                     
+MILLER                    15600                                                                     
+MARTIN                    15000                                                                     
+KING                      60000                                                                     
+JONES                     35700                                                                     
+JAMES                     11400                                                                     
+FORD                      36000                                                                     
+CLARK                     29400                                                                     
+BLAKE                     34200                                                                     
+
+ENAME                   FULLSAL                                                                     
+-------------------- ----------                                                                     
+ALLEN                     19200                                                                     
+
+12 rows selected.
+
+16:07:23 SQL> --- 여러 컬럼을 기준으로 정렬
+16:08:38 SQL> SELECT ENAME,SAL
+16:08:50   2  FROM EMP
+16:08:51   3  ORDER BY SAL DESC, ENAME DESC;
+
+ENAME                       SAL                                                                     
+-------------------- ----------                                                                     
+KING                       5000                                                                     
+FORD                       3000                                                                     
+JONES                      2975                                                                     
+BLAKE                      2850                                                                     
+CLARK                      2450                                                                     
+ALLEN                      1600                                                                     
+TURNER                     1500                                                                     
+MILLER                     1300                                                                     
+WARD                       1250                                                                     
+MARTIN                     1250                                                                     
+JAMES                       950                                                                     
+
+ENAME                       SAL                                                                     
+-------------------- ----------                                                                     
+SMITH                       800                                                                     
+
+12 rows selected.
+
+16:09:10 SQL> --1차 정렬 이후 2차정렬 수행
+16:09:34 SQL> ---------------------------------------
+16:19:18 SQL> SQL PLUS                        SQL
+SP2-0734: unknown command beginning "SQL PLUS  ..." - rest of line ignored.
+16:19:35 SQL> 
+16:38:38 SQL> 
+16:38:38 SQL> 
+16:38:38 SQL> SPOOL OFF

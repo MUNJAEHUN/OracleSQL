@@ -1,0 +1,12 @@
+SQL PLUS 			SQL
+========================================
+ORACLE TOOL 			ANSI 표준
+DESC,ASC,SAVE,SET [ ED문 사용X]	DML,DDL,DCL,TCL.. ;   
+명령어 축약 가능			축약 불가 
+BUFFER 기능 사용 X		BUFFER 사용 = ED 명령어 => AFIEDT.BUF에 자동저장
+절차적 성격	               	변수 X
+				비절차적 성격
+				영어기반 언어구조
+
+
+절차적 : 사용자가 자료를 찾기위한 방법을 기술하는 방식 -> SQL은 비절차적 : 필요한 데이터만 사용자가 기술

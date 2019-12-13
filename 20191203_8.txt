@@ -1,0 +1,2 @@
+SQL> --테스트 텍스트 --
+SQL> spool off
